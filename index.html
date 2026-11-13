@@ -1,0 +1,3169 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trigonometría del triángulo rectángulo · Matemáticas V</title>
+<style>
+:root{--bg:#f3f5fb;--card:#fff;--ink:#1c2541;--muted:#5d6886;--line:#e1e6f0;--soft:#eef1fb;
+--op:#e5484d;--ad:#2f74f5;--hi:#0fa37f;--ang:#f59f00;--acc:#6d4aff;--ok:#16a34a;--bad:#dc2626}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.55 "Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif}
+button{font:inherit;cursor:pointer}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 20px;background:linear-gradient(120deg,#1c2541,#3a2f7a);color:#fff;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{font-size:2.1rem;color:var(--ang);line-height:1}
+.top h1{font-size:1.25rem;margin:0}
+.top p{margin:0;opacity:.8;font-size:.88rem}
+.ghost{background:rgba(255,255,255,.12);color:#fff;border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:6px 14px;font-size:.85rem}
+.steps{position:sticky;top:0;z-index:20;background:#fff;border-bottom:1px solid var(--line);padding:8px 12px 0}
+.dots{display:flex;gap:4px;justify-content:space-between;max-width:1000px;margin:0 auto}
+.dot{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:0;padding:4px 2px;color:var(--muted);font-size:.74rem;text-align:center}
+.dot b{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:var(--soft);font-size:.95rem;transition:.3s}
+.dot.cur{color:var(--ink);font-weight:700}
+.dot.cur b{background:var(--acc);color:#fff;box-shadow:0 0 0 5px rgba(109,74,255,.2)}
+.dot.seen b{background:var(--hi);color:#fff}
+.bar{height:6px;background:var(--soft);margin:6px -12px 0}
+.bar i{display:block;height:100%;width:20%;background:linear-gradient(90deg,var(--acc),var(--hi));transition:width .5s}
+main{max-width:1120px;margin:0 auto;padding:18px 14px 110px}
+.station{display:none;animation:fadeIn .45s ease}
+.station.on{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.st-head{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:10px}
+.st-head h2{margin:0;font-size:1.5rem}
+.pill{background:var(--soft);border-radius:999px;padding:3px 12px;font-size:.85rem;color:var(--muted)}
+.goal{background:#fff7e0;border-left:6px solid var(--ang);border-radius:12px;padding:10px 14px;margin:0 0 16px;font-weight:600}
+.grid2{display:grid;grid-template-columns:1.1fr 1fr;gap:18px;align-items:start}
+@media(max-width:860px){.grid2{grid-template-columns:1fr}}
+.card{background:var(--card);border-radius:18px;padding:16px 18px;box-shadow:0 2px 10px rgba(28,37,65,.06);border:1px solid var(--line);margin-bottom:16px}
+.card h3{margin:0 0 8px;font-size:1.1rem}
+svg.fig{width:100%;height:auto;display:block;touch-action:none;user-select:none;-webkit-user-select:none}
+.btn{background:var(--acc);color:#fff;border:0;border-radius:12px;padding:10px 16px;font-weight:600;transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-1px);box-shadow:0 6px 16px rgba(109,74,255,.3)}
+.btn.sec{background:var(--soft);color:var(--ink)}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.seg{display:flex;flex-wrap:wrap;gap:8px}
+.seg button{border:2px solid var(--line);background:#fff;border-radius:12px;padding:8px 14px;font-weight:600;color:var(--ink)}
+.seg button.on{border-color:var(--acc);background:#f0ecff;color:var(--acc)}
+.c-op{color:var(--op)}.c-ad{color:var(--ad)}.c-hi{color:var(--hi)}.c-ang{color:var(--ang)}.c-acc{color:var(--acc)}.c-ok{color:var(--ok)}
+.def{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border-radius:12px;cursor:pointer;transition:background .2s}
+.def:hover,.def.on{background:var(--soft)}
+.sw{width:16px;height:16px;border-radius:5px;flex:0 0 16px;margin-top:6px}
+.fb{min-height:1.6em;font-weight:600;margin-top:8px}
+.fb.ok{color:var(--ok)}.fb.bad{color:var(--bad)}
+.small{font-size:.86rem;color:var(--muted)}
+code{background:var(--soft);padding:1px 7px;border-radius:6px;font-family:Consolas,monospace}
+input[type=range]{width:100%;accent-color:var(--acc)}
+.slab{display:block;margin-top:10px;font-weight:600}
+.shake{animation:shake .4s}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+/* SVG */
+.side{stroke-width:7;stroke-linecap:round;transition:opacity .3s}
+.side.op{stroke:var(--op);color:var(--op)}.side.ad{stroke:var(--ad);color:var(--ad)}.side.hi{stroke:var(--hi);color:var(--hi)}
+.side.mono{stroke:#9aa3bd;color:#9aa3bd}
+.side.dim{opacity:.16}
+.side.glow{animation:glow 1.1s ease-in-out infinite}
+@keyframes glow{0%,100%{stroke-width:7}50%{stroke-width:12;filter:drop-shadow(0 0 6px currentColor)}}
+.side.okf{stroke:var(--ok)!important;color:var(--ok);animation:glow .8s infinite}
+.side.badf{stroke:var(--bad)!important;color:var(--bad)}
+.draw{stroke-dasharray:700;stroke-dashoffset:700;animation:drawl 1.3s forwards}
+@keyframes drawl{to{stroke-dashoffset:0}}
+.hit{cursor:pointer;stroke-linecap:round}
+.lbl{font-weight:700;font-size:17px;paint-order:stroke;stroke:#fff;stroke-width:5px;stroke-linejoin:round;fill:var(--ink)}
+.lbl.op{fill:var(--op)}.lbl.ad{fill:var(--ad)}.lbl.hi{fill:var(--hi)}.lbl.angl{fill:#c27c00}
+.lbl.unk{animation:blink 1s infinite}
+@keyframes blink{50%{opacity:.3}}
+.arc{fill:rgba(245,159,0,.2);stroke:var(--ang);stroke-width:3}
+.arc.glow{animation:arcg 1s infinite}
+@keyframes arcg{50%{fill:rgba(245,159,0,.6)}}
+.vtx{fill:#8a93ad;font-size:15px;font-weight:700}
+.handle{fill:var(--acc);cursor:grab}
+.ring{fill:none;stroke:var(--acc);stroke-width:3;animation:ring 1.6s infinite;transform-box:fill-box;transform-origin:center}
+@keyframes ring{0%{transform:scale(.6);opacity:1}100%{transform:scale(1.9);opacity:0}}
+.sunglow{animation:sung 2.2s infinite;transform-box:fill-box;transform-origin:center}
+@keyframes sung{50%{transform:scale(1.25);opacity:.15}}
+/* SOH CAH TOA */
+.soh{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media(max-width:560px){.soh{grid-template-columns:1fr}}
+.sc{border:3px solid var(--line);border-radius:16px;padding:10px 8px;text-align:center;background:#fff;cursor:pointer;transition:.25s;font-size:.92rem}
+.sc .big{font-size:2rem;font-weight:800;letter-spacing:3px}
+.sc.on{border-color:var(--acc);box-shadow:0 0 0 6px rgba(109,74,255,.15);transform:translateY(-3px)}
+.frac{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;font-weight:700;line-height:1.2}
+.frac span:first-child{border-bottom:2px solid var(--ink);padding:0 4px}
+.val{font-size:1.2rem;font-weight:800}
+.val.steady{animation:steady .8s infinite}
+@keyframes steady{50%{color:var(--ok)}}
+.mcq{margin:10px 0;padding:10px 12px;border-radius:12px;background:var(--soft)}
+.mcq p{margin:0 0 6px;font-weight:600}
+.opt{border:2px solid var(--line);background:#fff;border-radius:10px;padding:7px 12px;margin:3px;font-weight:600;color:var(--ink)}
+.opt.ok{border-color:var(--ok);background:#e6f8ec;color:var(--ok)}
+.opt.bad{border-color:var(--bad);background:#fdeaea;color:var(--bad)}
+.opt.sel{border-color:var(--acc);background:#f0ecff}
+/* máquina */
+.mach{display:flex;align-items:center;gap:6px;margin:10px 0}
+.box{padding:8px 10px;border-radius:12px;background:#fff;border:2px solid var(--line);font-weight:700;min-width:64px;text-align:center;font-size:.95rem}
+.gear{background:var(--ink);color:#fff;border-color:var(--ink);transition:.3s}
+.gear.lit{background:var(--acc);box-shadow:0 0 0 7px rgba(109,74,255,.25)}
+.track{flex:1;min-width:20px;height:6px;background:var(--line);border-radius:3px;position:relative}
+.track i{position:absolute;top:-6px;left:0;width:18px;height:18px;border-radius:50%;background:var(--ang);transition:left .7s linear}
+.out{opacity:.12;transition:opacity .4s}
+.out.show{opacity:1;border-color:var(--ok)}
+.chip{border:2px solid currentColor;background:#fff;border-radius:999px;padding:6px 14px;font-weight:700;margin:3px}
+.chip.on.op{background:var(--op)}.chip.on.ad{background:var(--ad)}.chip.on.hi{background:var(--hi)}
+.chip.on{color:#fff!important}
+.dt{width:100%;border-collapse:separate;border-spacing:0 6px;font-size:.95rem}
+.dt td{padding:8px 10px;background:var(--soft);transition:.3s}
+.dt td:first-child{border-radius:10px 0 0 10px}.dt td:last-child{border-radius:0 10px 10px 0}
+.dt tr.on td{background:#e7e0ff;font-weight:700}
+.dt tr.on td:first-child{box-shadow:inset 5px 0 0 var(--acc)}
+input.num{font:inherit;width:130px;padding:8px 10px;border:2px solid var(--line);border-radius:10px}
+input.num:focus{outline:none;border-color:var(--acc)}
+.steps-out{background:var(--soft);border-radius:12px;padding:10px 14px;margin-top:10px}
+.reveal>div,.reveal>button{opacity:0;transform:translateX(-8px);animation:stepIn .45s forwards}
+.reveal>*:nth-child(2){animation-delay:.35s}.reveal>*:nth-child(3){animation-delay:.7s}.reveal>*:nth-child(4){animation-delay:1.05s}.reveal>*:nth-child(5){animation-delay:1.4s}
+@keyframes stepIn{to{opacity:1;transform:none}}
+.reveal>div{margin:4px 0}
+.stepper{display:flex;gap:6px;margin:8px 0}
+.stepper i{flex:1;height:7px;border-radius:4px;background:var(--line);transition:.3s}
+.stepper i.on{background:var(--acc)}.stepper i.cur{background:var(--ang)}
+.gstep{background:var(--soft);border-radius:12px;padding:10px 14px;margin:8px 0}
+.gstep.past{opacity:.6;font-size:.92rem}
+.gstep.cur{background:#fff;border:2px solid var(--acc);box-shadow:0 4px 14px rgba(109,74,255,.12)}
+.done{background:#e6f8ec;border-radius:12px;padding:10px 14px;font-weight:700;color:#14532d;margin-top:8px}
+.score{font-size:1.25rem;font-weight:800}
+.badge{display:inline-flex;gap:6px;align-items:center;background:#fff7e0;border:2px solid var(--ang);border-radius:999px;padding:5px 14px;font-weight:700;animation:pop .5s;margin-top:8px}
+@keyframes pop{0%{transform:scale(.3)}70%{transform:scale(1.15)}100%{transform:scale(1)}}
+.confetti{position:fixed;top:-20px;width:10px;height:14px;z-index:60;border-radius:2px;animation:fall 2.8s linear forwards;pointer-events:none}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}
+#guided svg.fig,#chal svg.fig{max-width:420px;margin:0 auto}
+.final{text-align:center;padding:20px}
+.final .stars{font-size:2.6rem}
+/* barra inferior */
+.navbtns{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;justify-content:center;gap:10px;padding:10px;background:rgba(255,255,255,.94);backdrop-filter:blur(6px);border-top:1px solid var(--line)}
+#calcBtn{background:var(--ink)}
+/* calculadora */
+.calc{position:fixed;right:16px;bottom:74px;z-index:41;width:340px;max-width:calc(100vw - 24px);max-height:calc(100vh - 90px);overflow:auto;background:#1c2541;color:#fff;border-radius:20px;padding:14px;box-shadow:0 18px 40px rgba(0,0,0,.35);transition:transform .25s,opacity .25s}
+.calc.hidden{transform:translateY(20px) scale(.96);opacity:0;pointer-events:none}
+@media(max-width:560px){.calc{right:12px;left:12px;width:auto}}
+.chead{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;gap:8px}
+.mode{display:flex;background:#0f1730;border-radius:999px;padding:3px}
+.mode button{border:0;background:none;color:#aab3d1;padding:4px 12px;border-radius:999px;font-weight:700;font-size:.85rem}
+.mode button.on{background:var(--ang);color:#1c2541}
+.xbtn{border:0;background:#2c3866;color:#fff;border-radius:50%;width:32px;height:32px}
+.cdisp{background:#0f1730;border-radius:12px;padding:10px 12px;min-height:84px;text-align:right;font-family:Consolas,"Courier New",monospace}
+.cexpr{font-size:1.1rem;overflow-x:auto;white-space:nowrap;min-height:1.6em}
+.cres{font-size:1.7rem;font-weight:700;color:#7ef0c5;min-height:1.3em}
+.cres.prev{color:#7d89b3;font-size:1.2rem}
+.cerr{color:#ff9b9b;font-size:.85rem;min-height:1.3em;margin-top:4px}
+.cerr.warn{color:#ffd166}
+.ckeys{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-top:6px}
+.ckeys button{border:0;border-radius:10px;padding:11px 0;font-weight:700;background:#2c3866;color:#fff;font-size:1rem;transition:transform .1s}
+.ckeys button:active{transform:scale(.93)}
+.ckeys .fn{background:#4a3aa8;font-size:.92rem}.ckeys .op{background:#33427a;color:#ffd166}
+.ckeys .eq{grid-column:1/-1;background:var(--hi)}.ckeys .clr{background:#8b2f3f}
+.ckeys .press{box-shadow:0 0 0 3px #ffd166}
+.ckeys .eq.call{animation:callme 1s infinite}
+@keyframes callme{50%{box-shadow:0 0 0 6px rgba(126,240,197,.5)}}
+.chist{font-size:.8rem;color:#aab3d1;margin-top:8px;font-family:Consolas,monospace}
+/* notas docente */
+.notes{max-width:1120px;margin:0 auto;padding:0 14px 110px}
+.notes details{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 16px;font-size:.92rem}
+.notes summary{cursor:pointer;font-weight:700}
+.goals li{margin:4px 0}
+/* registro */
+.reg{position:fixed;inset:0;z-index:100;background:linear-gradient(140deg,#1c2541,#3a2f7a);display:grid;place-items:center;padding:16px;overflow:auto}
+.reg.hide{display:none}
+.regcard{background:#fff;border-radius:22px;padding:26px 24px;width:min(440px,100%);box-shadow:0 20px 50px rgba(0,0,0,.35)}
+.regcard .logo{font-size:2.6rem}
+.regcard h1{font-size:1.35rem;margin:6px 0 2px}
+.regcard label{display:block;font-weight:600;margin-top:14px}
+.regcard input{display:block;width:100%;font:inherit;padding:10px 12px;border:2px solid var(--line);border-radius:12px;margin-top:4px}
+.regcard input:focus{outline:none;border-color:var(--acc)}
+.regcard .btn{width:100%;margin-top:18px;padding:13px}
+.tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.who{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.12);border-radius:999px;padding:4px 6px 4px 12px;font-size:.85rem}
+.who button{border:0;background:rgba(255,255,255,.22);color:#fff;border-radius:999px;width:24px;height:24px;font-size:.75rem;padding:0}
+/* quiz y comprobante */
+.qq{font-size:1.15rem;font-weight:700;margin:6px 0 12px}
+.qopts{display:flex;flex-direction:column;gap:8px}
+.qopts .opt{text-align:left;padding:12px 14px;margin:0}
+.opt:disabled{cursor:default}
+.qdots{display:flex;gap:6px;margin:6px 0}
+.qdots i{width:14px;height:14px;border-radius:50%;background:var(--line)}
+.qdots i.ok{background:var(--ok)}.qdots i.bad{background:var(--bad)}.qdots i.cur{background:var(--ang)}
+.req{list-style:none;padding:0;margin:8px 0 14px}
+.req li{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line)}
+.req .y{color:var(--ok);font-weight:700}.req .n{color:var(--muted)}
+.comp-img{width:100%;max-width:520px;display:block;margin:14px auto;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,.15)}
+/* modo calma */
+body.calm *{animation:none!important;transition:none!important}
+body.calm .draw{stroke-dasharray:none;stroke-dashoffset:0}
+body.calm .reveal>*{opacity:1;transform:none}
+</style>
+</head>
+<body>
+<div class="reg" id="reg">
+  <form class="regcard" id="regform" autocomplete="on" novalidate>
+    <div class="logo">◺</div>
+    <h1>Trigonometría del triángulo rectángulo</h1>
+    <p class="small" style="margin:0">Matemáticas V · Lección interactiva (≈ 40 min)</p>
+    <label for="rname">Nombre completo</label><input id="rname" name="name" placeholder="Nombre(s) y apellidos" autocomplete="name">
+    <label for="rmat">Matrícula <span class="small">(opcional)</span></label><input id="rmat" name="mat" placeholder="Ej. 2400123" inputmode="numeric">
+    <label for="rgrp">Grupo</label><input id="rgrp" name="grp" placeholder="Ej. 501">
+    <div class="fb bad" id="regfb"></div>
+    <button class="btn" type="submit">Comenzar ▸</button>
+    <p class="small">Tus datos solo se usan para generar tu comprobante y se guardan en este dispositivo.</p>
+    <p class="small" style="margin-bottom:0">Elaborado por T. Huerta</p>
+  </form>
+</div>
+<header class="top">
+  <div class="brand"><span class="logo">◺</span><div><h1>Trigonometría del triángulo rectángulo</h1><p>Matemáticas V · Lección interactiva (≈ 40 min)</p></div></div>
+  <div class="tools"><span class="who" id="who" hidden></span><button class="ghost" id="calmBtn">🌙 Menos movimiento</button></div>
+</header>
+<nav class="steps"><div class="dots" id="dots"></div><div class="bar"><i id="barfill"></i></div></nav>
+
+<main>
+<!-- ESTACIÓN 1 -->
+<section class="station on" id="st0">
+  <div class="st-head"><h2>1 · El reto del edificio</h2><span class="pill">⏱ ~4 min</span></div>
+  <p class="goal">🎯 Meta: descubrir que un triángulo escondido nos permite medir lo que no alcanzamos.</p>
+  <div class="grid2">
+    <div class="card">
+      <svg class="fig" id="scene" viewBox="0 0 600 320" aria-label="Edificio, Sol y sombra"></svg>
+      <label class="slab" for="al">☀️ Mueve el Sol: ángulo de elevación <b id="alv">35°</b></label>
+      <input type="range" id="al" min="25" max="75" value="35">
+      <div class="row" style="margin-top:10px"><button class="btn" id="reveal">🔍 Revelar el triángulo escondido</button></div>
+      <p class="small" id="revmsg"></p>
+    </div>
+    <div>
+      <div class="card"><h3>Pregunta detonadora</h3>
+        <p>El edificio mide <b>h</b> metros, pero no podemos subir. Solo conocemos su sombra y el ángulo del Sol. ¿Cómo lo medirías?</p>
+        <div id="poll"></div><div class="fb" id="pollfb"></div></div>
+      <div class="card"><h3>Hoy vas a lograr…</h3>
+        <ul class="goals"><li>Nombrar los lados de un triángulo rectángulo respecto a un ángulo.</li><li>Usar <b>SOH-CAH-TOA</b> para encontrar lados.</li><li>Usar <b>sin⁻¹, cos⁻¹ y tan⁻¹</b> para encontrar ángulos.</li><li>Resolver problemas reales con la calculadora 🧮.</li></ul>
+        <p class="small">Código de colores de toda la lección: <b class="c-op">opuesto</b>, <b class="c-ad">adyacente</b>, <b class="c-hi">hipotenusa</b> y <b class="c-ang">ángulo</b>.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ESTACIÓN 2 -->
+<section class="station" id="st1">
+  <div class="st-head"><h2>2 · ¿Quién es quién?</h2><span class="pill">⏱ ~6 min</span></div>
+  <p class="goal">🎯 Meta: reconocer el opuesto, el adyacente y la hipotenusa sin dudar.</p>
+  <div class="grid2">
+    <div class="card"><svg class="fig" id="fig2" viewBox="0 0 400 300"></svg><p class="small">👆 Toca cualquier lado del triángulo.</p></div>
+    <div>
+      <div class="card"><h3>1. Elige dónde está el ángulo θ</h3>
+        <div class="seg" id="ref2"><button data-r="A" class="on">Ángulo en A</button><button data-r="B">Ángulo en B</button></div>
+        <div class="fb" id="swapmsg"></div></div>
+      <div class="card"><h3>2. Los tres nombres</h3>
+        <div class="def" data-role="hi"><span class="sw" style="background:var(--hi)"></span><div><b class="c-hi">Hipotenusa:</b> el lado más largo; siempre está enfrente del ángulo recto. ¡Nunca cambia!</div></div>
+        <div class="def" data-role="op"><span class="sw" style="background:var(--op)"></span><div><b class="c-op">Cateto opuesto:</b> está enfrente de θ; no lo toca.</div></div>
+        <div class="def" data-role="ad"><span class="sw" style="background:var(--ad)"></span><div><b class="c-ad">Cateto adyacente:</b> toca a θ y no es la hipotenusa.</div></div></div>
+      <div class="card"><h3>3. ¡Ponte a prueba!</h3>
+        <p id="q2prompt">Gana la insignia con <b>3 aciertos seguidos</b>. Ojo: en la práctica los lados se ven grises.</p>
+        <button class="btn" id="q2btn">▶ Iniciar práctica</button>
+        <div class="fb" id="q2fb"></div><div id="badge2"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ESTACIÓN 3 -->
+<section class="station" id="st2">
+  <div class="st-head"><h2>3 · SOH-CAH-TOA</h2><span class="pill">⏱ ~9 min</span></div>
+  <p class="goal">🎯 Meta: entender que seno, coseno y tangente son divisiones entre dos lados.</p>
+  <div class="grid2">
+    <div class="card">
+      <svg class="fig" id="fig3" viewBox="0 0 400 320"></svg>
+      <p class="small">👆 Arrastra el punto morado para cambiar el ángulo.</p>
+      <label class="slab" for="th3">Ángulo θ: <b id="th3v">35°</b></label><input type="range" id="th3" min="5" max="85" value="35">
+      <label class="slab" for="k3">Tamaño del triángulo</label><input type="range" id="k3" min="60" max="120" value="100">
+      <div class="row" style="margin-top:10px"><button class="btn sec" id="anim3">▶ Agrandar sin cambiar el ángulo</button></div>
+      <div class="fb" id="anim3msg"></div>
+    </div>
+    <div>
+      <div class="card"><h3>Toca una tarjeta para ver qué lados usa</h3>
+        <div class="soh">
+          <div class="sc" data-f="sin"><div class="big"><span class="c-acc">S</span><span class="c-op">O</span><span class="c-hi">H</span></div><div><b>Seno</b> = <span class="c-op">Op</span> ÷ <span class="c-hi">Hip</span></div><div style="margin-top:6px"><span class="frac"><span class="c-op" id="n-sin"></span><span class="c-hi" id="d-sin"></span></span> ≈ <span class="val" id="v-sin"></span></div></div>
+          <div class="sc" data-f="cos"><div class="big"><span class="c-acc">C</span><span class="c-ad">A</span><span class="c-hi">H</span></div><div><b>Coseno</b> = <span class="c-ad">Ady</span> ÷ <span class="c-hi">Hip</span></div><div style="margin-top:6px"><span class="frac"><span class="c-ad" id="n-cos"></span><span class="c-hi" id="d-cos"></span></span> ≈ <span class="val" id="v-cos"></span></div></div>
+          <div class="sc" data-f="tan"><div class="big"><span class="c-acc">T</span><span class="c-op">O</span><span class="c-ad">A</span></div><div><b>Tangente</b> = <span class="c-op">Op</span> ÷ <span class="c-ad">Ady</span></div><div style="margin-top:6px"><span class="frac"><span class="c-op" id="n-tan"></span><span class="c-ad" id="d-tan"></span></span> ≈ <span class="val" id="v-tan"></span></div></div>
+        </div>
+        <p class="small" style="margin-bottom:0">Compruébalo en la calculadora (modo DEG): <code id="chk3"></code></p></div>
+      <div class="card"><h3>Mini-chequeo</h3><div id="mcq3"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ESTACIÓN 4 -->
+<section class="station" id="st3">
+  <div class="st-head"><h2>4 · De regreso: calcular el ángulo</h2><span class="pill">⏱ ~7 min</span></div>
+  <p class="goal">🎯 Meta: elegir sin⁻¹, cos⁻¹ o tan⁻¹ según los dos lados que conoces.</p>
+  <div class="card"><h3>La máquina inversa</h3>
+    <div class="mach" id="m1"><div class="box">θ = 30°</div><div class="track t1"><i></i></div><div class="box gear">sin</div><div class="track t2"><i></i></div><div class="box out">0.5</div></div>
+    <div class="mach" id="m2"><div class="box">0.5</div><div class="track t1"><i></i></div><div class="box gear">sin⁻¹</div><div class="track t2"><i></i></div><div class="box out">θ = 30°</div></div>
+    <div class="row"><button class="btn" id="mach">▶ Encender la máquina</button></div>
+    <p class="small">La función <b>seno</b> recibe un ángulo y entrega una razón. La <b>inversa sin⁻¹</b> hace el camino de regreso: recibe la razón y te devuelve el ángulo. Igual con cos⁻¹ y tan⁻¹.</p>
+  </div>
+  <div class="grid2">
+    <div class="card"><svg class="fig" id="fig4" viewBox="0 0 400 300"></svg></div>
+    <div>
+      <div class="card"><h3>1. ¿Qué dos lados conoces?</h3>
+        <div id="chips4"><button class="chip op c-op" data-c="op">Opuesto</button><button class="chip ad c-ad" data-c="ad">Adyacente</button><button class="chip hi c-hi" data-c="hi">Hipotenusa</button></div>
+        <table class="dt"><tbody>
+          <tr id="dt-sin"><td><span class="c-op">Op</span> + <span class="c-hi">Hip</span></td><td><b>SOH</b></td><td>θ = sin⁻¹(<span class="c-op">Op</span> ÷ <span class="c-hi">Hip</span>)</td></tr>
+          <tr id="dt-cos"><td><span class="c-ad">Ady</span> + <span class="c-hi">Hip</span></td><td><b>CAH</b></td><td>θ = cos⁻¹(<span class="c-ad">Ady</span> ÷ <span class="c-hi">Hip</span>)</td></tr>
+          <tr id="dt-tan"><td><span class="c-op">Op</span> + <span class="c-ad">Ady</span></td><td><b>TOA</b></td><td>θ = tan⁻¹(<span class="c-op">Op</span> ÷ <span class="c-ad">Ady</span>)</td></tr>
+        </tbody></table></div>
+      <div class="card"><h3>2. Escribe sus medidas</h3>
+        <div id="inp4" class="row"></div>
+        <div class="row" style="margin-top:10px"><button class="btn" id="go4">Calcular θ</button></div>
+        <div id="out4"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ESTACIÓN 5 -->
+<section class="station" id="st4">
+  <div class="st-head"><h2>5 · Manos a la obra</h2><span class="pill">⏱ ~9 min</span></div>
+  <p class="goal">🎯 Meta: resolver problemas con 4 pasos: ① ubicar θ, ② nombrar lados, ③ elegir la razón, ④ calcular.</p>
+  <div class="seg" id="tabs5" style="margin-bottom:12px"><button data-t="g" class="on">📘 Problemas guiados</button><button data-t="r">🏆 Reto de práctica</button></div>
+  <div class="card" id="guided"></div>
+  <div class="card" id="chal" style="display:none"></div>
+</section>
+
+<!-- ESTACIÓN 6 -->
+<section class="station" id="st5">
+  <div class="st-head"><h2>6 · Quiz final y comprobante</h2><span class="pill">⏱ ~5 min</span></div>
+  <p class="goal">🎯 Meta: demostrar lo que aprendiste. Solo cuenta tu primer intento, así que lee con calma.</p>
+  <div class="grid2">
+    <div class="card" id="quiz"></div>
+    <div class="card" id="comp"></div>
+  </div>
+</section>
+</main>
+
+<footer class="notes">
+  <details><summary>📋 Notas para el docente</summary>
+    <p><b>Uso sugerido (40 min).</b> Estación 1, 4 min; estación 2, 6 min; estación 3, 9 min; estación 4, 7 min; estación 5, 9 min; estación 6 (quiz y comprobante), 5 min. Puede proyectarse en grupo o abrirse en el celular de cada estudiante; funciona sin conexión una vez cargada.</p>
+    <p><b>Apoyos para la atención.</b> Cada estación tiene una sola meta visible y una duración breve (segmentación). Los colores se mantienen constantes en toda la lección para señalar qué lado se está usando (señalización), y cada acción recibe retroalimentación inmediata y específica. El botón «Menos movimiento» desactiva las animaciones para quienes se distraen con ellas o lo necesitan por accesibilidad.</p>
+    <p><b>Comprobante.</b> Se genera al recorrer las 5 estaciones y terminar el quiz (6 preguntas al azar de un banco de 10; cuenta solo el primer intento y se contesta una vez). Sale como imagen PNG con nombre, matrícula, grupo, fecha, tiempo en la lección, estaciones, problemas guiados, reto de práctica y calificación del quiz, más un código de verificación y un QR. Para revisarlo, escanee el QR: abre <code>verificar.html</code> e indica si los datos coinciden con el código; si la imagen fue editada, aparece «✗ El código no coincide». Esa página no aparece en la lección.</p>
+    <p><b>Cierre sugerido.</b> Retomar el edificio de la estación 1: el problema guiado 1 lo resuelve (h ≈ 14.00 m), lo que cierra el ciclo abierto con la pregunta detonadora.</p>
+    <p><b>Fundamento.</b> Principios de segmentación y señalización del aprendizaje multimedia (Mayer, 2009) y retroalimentación orientada a la tarea y al proceso (Hattie y Timperley, 2007).</p>
+    <p style="padding-left:2em;text-indent:-2em">Hattie, J., &amp; Timperley, H. (2007). The power of feedback. <i>Review of Educational Research, 77</i>(1), 81–112. https://doi.org/10.3102/003465430298487</p>
+    <p style="padding-left:2em;text-indent:-2em">Mayer, R. E. (2009). <i>Multimedia learning</i> (2nd ed.). Cambridge University Press.</p>
+  </details>
+</footer>
+
+<div class="navbtns">
+  <button class="btn sec" id="prev">← Anterior</button>
+  <button class="btn" id="next">Siguiente →</button>
+  <button class="btn" id="calcBtn">🧮 Calculadora</button>
+</div>
+
+<aside class="calc hidden" id="calc" aria-label="Calculadora trigonométrica"></aside>
+
+<script>
+/* qrcode-generator 1.4.4 (MIT) — Kazuhiko Arase */
+//---------------------------------------------------------------------
+//
+// QR Code Generator for JavaScript
+//
+// Copyright (c) 2009 Kazuhiko Arase
+//
+// URL: http://www.d-project.com/
+//
+// Licensed under the MIT license:
+//  http://www.opensource.org/licenses/mit-license.php
+//
+// The word 'QR Code' is registered trademark of
+// DENSO WAVE INCORPORATED
+//  http://www.denso-wave.com/qrcode/faqpatent-e.html
+//
+//---------------------------------------------------------------------
+
+var qrcode = function() {
+
+  //---------------------------------------------------------------------
+  // qrcode
+  //---------------------------------------------------------------------
+
+  /**
+   * qrcode
+   * @param typeNumber 1 to 40
+   * @param errorCorrectionLevel 'L','M','Q','H'
+   */
+  var qrcode = function(typeNumber, errorCorrectionLevel) {
+
+    var PAD0 = 0xEC;
+    var PAD1 = 0x11;
+
+    var _typeNumber = typeNumber;
+    var _errorCorrectionLevel = QRErrorCorrectionLevel[errorCorrectionLevel];
+    var _modules = null;
+    var _moduleCount = 0;
+    var _dataCache = null;
+    var _dataList = [];
+
+    var _this = {};
+
+    var makeImpl = function(test, maskPattern) {
+
+      _moduleCount = _typeNumber * 4 + 17;
+      _modules = function(moduleCount) {
+        var modules = new Array(moduleCount);
+        for (var row = 0; row < moduleCount; row += 1) {
+          modules[row] = new Array(moduleCount);
+          for (var col = 0; col < moduleCount; col += 1) {
+            modules[row][col] = null;
+          }
+        }
+        return modules;
+      }(_moduleCount);
+
+      setupPositionProbePattern(0, 0);
+      setupPositionProbePattern(_moduleCount - 7, 0);
+      setupPositionProbePattern(0, _moduleCount - 7);
+      setupPositionAdjustPattern();
+      setupTimingPattern();
+      setupTypeInfo(test, maskPattern);
+
+      if (_typeNumber >= 7) {
+        setupTypeNumber(test);
+      }
+
+      if (_dataCache == null) {
+        _dataCache = createData(_typeNumber, _errorCorrectionLevel, _dataList);
+      }
+
+      mapData(_dataCache, maskPattern);
+    };
+
+    var setupPositionProbePattern = function(row, col) {
+
+      for (var r = -1; r <= 7; r += 1) {
+
+        if (row + r <= -1 || _moduleCount <= row + r) continue;
+
+        for (var c = -1; c <= 7; c += 1) {
+
+          if (col + c <= -1 || _moduleCount <= col + c) continue;
+
+          if ( (0 <= r && r <= 6 && (c == 0 || c == 6) )
+              || (0 <= c && c <= 6 && (r == 0 || r == 6) )
+              || (2 <= r && r <= 4 && 2 <= c && c <= 4) ) {
+            _modules[row + r][col + c] = true;
+          } else {
+            _modules[row + r][col + c] = false;
+          }
+        }
+      }
+    };
+
+    var getBestMaskPattern = function() {
+
+      var minLostPoint = 0;
+      var pattern = 0;
+
+      for (var i = 0; i < 8; i += 1) {
+
+        makeImpl(true, i);
+
+        var lostPoint = QRUtil.getLostPoint(_this);
+
+        if (i == 0 || minLostPoint > lostPoint) {
+          minLostPoint = lostPoint;
+          pattern = i;
+        }
+      }
+
+      return pattern;
+    };
+
+    var setupTimingPattern = function() {
+
+      for (var r = 8; r < _moduleCount - 8; r += 1) {
+        if (_modules[r][6] != null) {
+          continue;
+        }
+        _modules[r][6] = (r % 2 == 0);
+      }
+
+      for (var c = 8; c < _moduleCount - 8; c += 1) {
+        if (_modules[6][c] != null) {
+          continue;
+        }
+        _modules[6][c] = (c % 2 == 0);
+      }
+    };
+
+    var setupPositionAdjustPattern = function() {
+
+      var pos = QRUtil.getPatternPosition(_typeNumber);
+
+      for (var i = 0; i < pos.length; i += 1) {
+
+        for (var j = 0; j < pos.length; j += 1) {
+
+          var row = pos[i];
+          var col = pos[j];
+
+          if (_modules[row][col] != null) {
+            continue;
+          }
+
+          for (var r = -2; r <= 2; r += 1) {
+
+            for (var c = -2; c <= 2; c += 1) {
+
+              if (r == -2 || r == 2 || c == -2 || c == 2
+                  || (r == 0 && c == 0) ) {
+                _modules[row + r][col + c] = true;
+              } else {
+                _modules[row + r][col + c] = false;
+              }
+            }
+          }
+        }
+      }
+    };
+
+    var setupTypeNumber = function(test) {
+
+      var bits = QRUtil.getBCHTypeNumber(_typeNumber);
+
+      for (var i = 0; i < 18; i += 1) {
+        var mod = (!test && ( (bits >> i) & 1) == 1);
+        _modules[Math.floor(i / 3)][i % 3 + _moduleCount - 8 - 3] = mod;
+      }
+
+      for (var i = 0; i < 18; i += 1) {
+        var mod = (!test && ( (bits >> i) & 1) == 1);
+        _modules[i % 3 + _moduleCount - 8 - 3][Math.floor(i / 3)] = mod;
+      }
+    };
+
+    var setupTypeInfo = function(test, maskPattern) {
+
+      var data = (_errorCorrectionLevel << 3) | maskPattern;
+      var bits = QRUtil.getBCHTypeInfo(data);
+
+      // vertical
+      for (var i = 0; i < 15; i += 1) {
+
+        var mod = (!test && ( (bits >> i) & 1) == 1);
+
+        if (i < 6) {
+          _modules[i][8] = mod;
+        } else if (i < 8) {
+          _modules[i + 1][8] = mod;
+        } else {
+          _modules[_moduleCount - 15 + i][8] = mod;
+        }
+      }
+
+      // horizontal
+      for (var i = 0; i < 15; i += 1) {
+
+        var mod = (!test && ( (bits >> i) & 1) == 1);
+
+        if (i < 8) {
+          _modules[8][_moduleCount - i - 1] = mod;
+        } else if (i < 9) {
+          _modules[8][15 - i - 1 + 1] = mod;
+        } else {
+          _modules[8][15 - i - 1] = mod;
+        }
+      }
+
+      // fixed module
+      _modules[_moduleCount - 8][8] = (!test);
+    };
+
+    var mapData = function(data, maskPattern) {
+
+      var inc = -1;
+      var row = _moduleCount - 1;
+      var bitIndex = 7;
+      var byteIndex = 0;
+      var maskFunc = QRUtil.getMaskFunction(maskPattern);
+
+      for (var col = _moduleCount - 1; col > 0; col -= 2) {
+
+        if (col == 6) col -= 1;
+
+        while (true) {
+
+          for (var c = 0; c < 2; c += 1) {
+
+            if (_modules[row][col - c] == null) {
+
+              var dark = false;
+
+              if (byteIndex < data.length) {
+                dark = ( ( (data[byteIndex] >>> bitIndex) & 1) == 1);
+              }
+
+              var mask = maskFunc(row, col - c);
+
+              if (mask) {
+                dark = !dark;
+              }
+
+              _modules[row][col - c] = dark;
+              bitIndex -= 1;
+
+              if (bitIndex == -1) {
+                byteIndex += 1;
+                bitIndex = 7;
+              }
+            }
+          }
+
+          row += inc;
+
+          if (row < 0 || _moduleCount <= row) {
+            row -= inc;
+            inc = -inc;
+            break;
+          }
+        }
+      }
+    };
+
+    var createBytes = function(buffer, rsBlocks) {
+
+      var offset = 0;
+
+      var maxDcCount = 0;
+      var maxEcCount = 0;
+
+      var dcdata = new Array(rsBlocks.length);
+      var ecdata = new Array(rsBlocks.length);
+
+      for (var r = 0; r < rsBlocks.length; r += 1) {
+
+        var dcCount = rsBlocks[r].dataCount;
+        var ecCount = rsBlocks[r].totalCount - dcCount;
+
+        maxDcCount = Math.max(maxDcCount, dcCount);
+        maxEcCount = Math.max(maxEcCount, ecCount);
+
+        dcdata[r] = new Array(dcCount);
+
+        for (var i = 0; i < dcdata[r].length; i += 1) {
+          dcdata[r][i] = 0xff & buffer.getBuffer()[i + offset];
+        }
+        offset += dcCount;
+
+        var rsPoly = QRUtil.getErrorCorrectPolynomial(ecCount);
+        var rawPoly = qrPolynomial(dcdata[r], rsPoly.getLength() - 1);
+
+        var modPoly = rawPoly.mod(rsPoly);
+        ecdata[r] = new Array(rsPoly.getLength() - 1);
+        for (var i = 0; i < ecdata[r].length; i += 1) {
+          var modIndex = i + modPoly.getLength() - ecdata[r].length;
+          ecdata[r][i] = (modIndex >= 0)? modPoly.getAt(modIndex) : 0;
+        }
+      }
+
+      var totalCodeCount = 0;
+      for (var i = 0; i < rsBlocks.length; i += 1) {
+        totalCodeCount += rsBlocks[i].totalCount;
+      }
+
+      var data = new Array(totalCodeCount);
+      var index = 0;
+
+      for (var i = 0; i < maxDcCount; i += 1) {
+        for (var r = 0; r < rsBlocks.length; r += 1) {
+          if (i < dcdata[r].length) {
+            data[index] = dcdata[r][i];
+            index += 1;
+          }
+        }
+      }
+
+      for (var i = 0; i < maxEcCount; i += 1) {
+        for (var r = 0; r < rsBlocks.length; r += 1) {
+          if (i < ecdata[r].length) {
+            data[index] = ecdata[r][i];
+            index += 1;
+          }
+        }
+      }
+
+      return data;
+    };
+
+    var createData = function(typeNumber, errorCorrectionLevel, dataList) {
+
+      var rsBlocks = QRRSBlock.getRSBlocks(typeNumber, errorCorrectionLevel);
+
+      var buffer = qrBitBuffer();
+
+      for (var i = 0; i < dataList.length; i += 1) {
+        var data = dataList[i];
+        buffer.put(data.getMode(), 4);
+        buffer.put(data.getLength(), QRUtil.getLengthInBits(data.getMode(), typeNumber) );
+        data.write(buffer);
+      }
+
+      // calc num max data.
+      var totalDataCount = 0;
+      for (var i = 0; i < rsBlocks.length; i += 1) {
+        totalDataCount += rsBlocks[i].dataCount;
+      }
+
+      if (buffer.getLengthInBits() > totalDataCount * 8) {
+        throw 'code length overflow. ('
+          + buffer.getLengthInBits()
+          + '>'
+          + totalDataCount * 8
+          + ')';
+      }
+
+      // end code
+      if (buffer.getLengthInBits() + 4 <= totalDataCount * 8) {
+        buffer.put(0, 4);
+      }
+
+      // padding
+      while (buffer.getLengthInBits() % 8 != 0) {
+        buffer.putBit(false);
+      }
+
+      // padding
+      while (true) {
+
+        if (buffer.getLengthInBits() >= totalDataCount * 8) {
+          break;
+        }
+        buffer.put(PAD0, 8);
+
+        if (buffer.getLengthInBits() >= totalDataCount * 8) {
+          break;
+        }
+        buffer.put(PAD1, 8);
+      }
+
+      return createBytes(buffer, rsBlocks);
+    };
+
+    _this.addData = function(data, mode) {
+
+      mode = mode || 'Byte';
+
+      var newData = null;
+
+      switch(mode) {
+      case 'Numeric' :
+        newData = qrNumber(data);
+        break;
+      case 'Alphanumeric' :
+        newData = qrAlphaNum(data);
+        break;
+      case 'Byte' :
+        newData = qr8BitByte(data);
+        break;
+      case 'Kanji' :
+        newData = qrKanji(data);
+        break;
+      default :
+        throw 'mode:' + mode;
+      }
+
+      _dataList.push(newData);
+      _dataCache = null;
+    };
+
+    _this.isDark = function(row, col) {
+      if (row < 0 || _moduleCount <= row || col < 0 || _moduleCount <= col) {
+        throw row + ',' + col;
+      }
+      return _modules[row][col];
+    };
+
+    _this.getModuleCount = function() {
+      return _moduleCount;
+    };
+
+    _this.make = function() {
+      if (_typeNumber < 1) {
+        var typeNumber = 1;
+
+        for (; typeNumber < 40; typeNumber++) {
+          var rsBlocks = QRRSBlock.getRSBlocks(typeNumber, _errorCorrectionLevel);
+          var buffer = qrBitBuffer();
+
+          for (var i = 0; i < _dataList.length; i++) {
+            var data = _dataList[i];
+            buffer.put(data.getMode(), 4);
+            buffer.put(data.getLength(), QRUtil.getLengthInBits(data.getMode(), typeNumber) );
+            data.write(buffer);
+          }
+
+          var totalDataCount = 0;
+          for (var i = 0; i < rsBlocks.length; i++) {
+            totalDataCount += rsBlocks[i].dataCount;
+          }
+
+          if (buffer.getLengthInBits() <= totalDataCount * 8) {
+            break;
+          }
+        }
+
+        _typeNumber = typeNumber;
+      }
+
+      makeImpl(false, getBestMaskPattern() );
+    };
+
+    _this.createTableTag = function(cellSize, margin) {
+
+      cellSize = cellSize || 2;
+      margin = (typeof margin == 'undefined')? cellSize * 4 : margin;
+
+      var qrHtml = '';
+
+      qrHtml += '<table style="';
+      qrHtml += ' border-width: 0px; border-style: none;';
+      qrHtml += ' border-collapse: collapse;';
+      qrHtml += ' padding: 0px; margin: ' + margin + 'px;';
+      qrHtml += '">';
+      qrHtml += '<tbody>';
+
+      for (var r = 0; r < _this.getModuleCount(); r += 1) {
+
+        qrHtml += '<tr>';
+
+        for (var c = 0; c < _this.getModuleCount(); c += 1) {
+          qrHtml += '<td style="';
+          qrHtml += ' border-width: 0px; border-style: none;';
+          qrHtml += ' border-collapse: collapse;';
+          qrHtml += ' padding: 0px; margin: 0px;';
+          qrHtml += ' width: ' + cellSize + 'px;';
+          qrHtml += ' height: ' + cellSize + 'px;';
+          qrHtml += ' background-color: ';
+          qrHtml += _this.isDark(r, c)? '#000000' : '#ffffff';
+          qrHtml += ';';
+          qrHtml += '"/>';
+        }
+
+        qrHtml += '</tr>';
+      }
+
+      qrHtml += '</tbody>';
+      qrHtml += '</table>';
+
+      return qrHtml;
+    };
+
+    _this.createSvgTag = function(cellSize, margin, alt, title) {
+
+      var opts = {};
+      if (typeof arguments[0] == 'object') {
+        // Called by options.
+        opts = arguments[0];
+        // overwrite cellSize and margin.
+        cellSize = opts.cellSize;
+        margin = opts.margin;
+        alt = opts.alt;
+        title = opts.title;
+      }
+
+      cellSize = cellSize || 2;
+      margin = (typeof margin == 'undefined')? cellSize * 4 : margin;
+
+      // Compose alt property surrogate
+      alt = (typeof alt === 'string') ? {text: alt} : alt || {};
+      alt.text = alt.text || null;
+      alt.id = (alt.text) ? alt.id || 'qrcode-description' : null;
+
+      // Compose title property surrogate
+      title = (typeof title === 'string') ? {text: title} : title || {};
+      title.text = title.text || null;
+      title.id = (title.text) ? title.id || 'qrcode-title' : null;
+
+      var size = _this.getModuleCount() * cellSize + margin * 2;
+      var c, mc, r, mr, qrSvg='', rect;
+
+      rect = 'l' + cellSize + ',0 0,' + cellSize +
+        ' -' + cellSize + ',0 0,-' + cellSize + 'z ';
+
+      qrSvg += '<svg version="1.1" xmlns="http://www.w3.org/2000/svg"';
+      qrSvg += !opts.scalable ? ' width="' + size + 'px" height="' + size + 'px"' : '';
+      qrSvg += ' viewBox="0 0 ' + size + ' ' + size + '" ';
+      qrSvg += ' preserveAspectRatio="xMinYMin meet"';
+      qrSvg += (title.text || alt.text) ? ' role="img" aria-labelledby="' +
+          escapeXml([title.id, alt.id].join(' ').trim() ) + '"' : '';
+      qrSvg += '>';
+      qrSvg += (title.text) ? '<title id="' + escapeXml(title.id) + '">' +
+          escapeXml(title.text) + '</title>' : '';
+      qrSvg += (alt.text) ? '<description id="' + escapeXml(alt.id) + '">' +
+          escapeXml(alt.text) + '</description>' : '';
+      qrSvg += '<rect width="100%" height="100%" fill="white" cx="0" cy="0"/>';
+      qrSvg += '<path d="';
+
+      for (r = 0; r < _this.getModuleCount(); r += 1) {
+        mr = r * cellSize + margin;
+        for (c = 0; c < _this.getModuleCount(); c += 1) {
+          if (_this.isDark(r, c) ) {
+            mc = c*cellSize+margin;
+            qrSvg += 'M' + mc + ',' + mr + rect;
+          }
+        }
+      }
+
+      qrSvg += '" stroke="transparent" fill="black"/>';
+      qrSvg += '</svg>';
+
+      return qrSvg;
+    };
+
+    _this.createDataURL = function(cellSize, margin) {
+
+      cellSize = cellSize || 2;
+      margin = (typeof margin == 'undefined')? cellSize * 4 : margin;
+
+      var size = _this.getModuleCount() * cellSize + margin * 2;
+      var min = margin;
+      var max = size - margin;
+
+      return createDataURL(size, size, function(x, y) {
+        if (min <= x && x < max && min <= y && y < max) {
+          var c = Math.floor( (x - min) / cellSize);
+          var r = Math.floor( (y - min) / cellSize);
+          return _this.isDark(r, c)? 0 : 1;
+        } else {
+          return 1;
+        }
+      } );
+    };
+
+    _this.createImgTag = function(cellSize, margin, alt) {
+
+      cellSize = cellSize || 2;
+      margin = (typeof margin == 'undefined')? cellSize * 4 : margin;
+
+      var size = _this.getModuleCount() * cellSize + margin * 2;
+
+      var img = '';
+      img += '<img';
+      img += '\u0020src="';
+      img += _this.createDataURL(cellSize, margin);
+      img += '"';
+      img += '\u0020width="';
+      img += size;
+      img += '"';
+      img += '\u0020height="';
+      img += size;
+      img += '"';
+      if (alt) {
+        img += '\u0020alt="';
+        img += escapeXml(alt);
+        img += '"';
+      }
+      img += '/>';
+
+      return img;
+    };
+
+    var escapeXml = function(s) {
+      var escaped = '';
+      for (var i = 0; i < s.length; i += 1) {
+        var c = s.charAt(i);
+        switch(c) {
+        case '<': escaped += '&lt;'; break;
+        case '>': escaped += '&gt;'; break;
+        case '&': escaped += '&amp;'; break;
+        case '"': escaped += '&quot;'; break;
+        default : escaped += c; break;
+        }
+      }
+      return escaped;
+    };
+
+    var _createHalfASCII = function(margin) {
+      var cellSize = 1;
+      margin = (typeof margin == 'undefined')? cellSize * 2 : margin;
+
+      var size = _this.getModuleCount() * cellSize + margin * 2;
+      var min = margin;
+      var max = size - margin;
+
+      var y, x, r1, r2, p;
+
+      var blocks = {
+        '██': '█',
+        '█ ': '▀',
+        ' █': '▄',
+        '  ': ' '
+      };
+
+      var blocksLastLineNoMargin = {
+        '██': '▀',
+        '█ ': '▀',
+        ' █': ' ',
+        '  ': ' '
+      };
+
+      var ascii = '';
+      for (y = 0; y < size; y += 2) {
+        r1 = Math.floor((y - min) / cellSize);
+        r2 = Math.floor((y + 1 - min) / cellSize);
+        for (x = 0; x < size; x += 1) {
+          p = '█';
+
+          if (min <= x && x < max && min <= y && y < max && _this.isDark(r1, Math.floor((x - min) / cellSize))) {
+            p = ' ';
+          }
+
+          if (min <= x && x < max && min <= y+1 && y+1 < max && _this.isDark(r2, Math.floor((x - min) / cellSize))) {
+            p += ' ';
+          }
+          else {
+            p += '█';
+          }
+
+          // Output 2 characters per pixel, to create full square. 1 character per pixels gives only half width of square.
+          ascii += (margin < 1 && y+1 >= max) ? blocksLastLineNoMargin[p] : blocks[p];
+        }
+
+        ascii += '\n';
+      }
+
+      if (size % 2 && margin > 0) {
+        return ascii.substring(0, ascii.length - size - 1) + Array(size+1).join('▀');
+      }
+
+      return ascii.substring(0, ascii.length-1);
+    };
+
+    _this.createASCII = function(cellSize, margin) {
+      cellSize = cellSize || 1;
+
+      if (cellSize < 2) {
+        return _createHalfASCII(margin);
+      }
+
+      cellSize -= 1;
+      margin = (typeof margin == 'undefined')? cellSize * 2 : margin;
+
+      var size = _this.getModuleCount() * cellSize + margin * 2;
+      var min = margin;
+      var max = size - margin;
+
+      var y, x, r, p;
+
+      var white = Array(cellSize+1).join('██');
+      var black = Array(cellSize+1).join('  ');
+
+      var ascii = '';
+      var line = '';
+      for (y = 0; y < size; y += 1) {
+        r = Math.floor( (y - min) / cellSize);
+        line = '';
+        for (x = 0; x < size; x += 1) {
+          p = 1;
+
+          if (min <= x && x < max && min <= y && y < max && _this.isDark(r, Math.floor((x - min) / cellSize))) {
+            p = 0;
+          }
+
+          // Output 2 characters per pixel, to create full square. 1 character per pixels gives only half width of square.
+          line += p ? white : black;
+        }
+
+        for (r = 0; r < cellSize; r += 1) {
+          ascii += line + '\n';
+        }
+      }
+
+      return ascii.substring(0, ascii.length-1);
+    };
+
+    _this.renderTo2dContext = function(context, cellSize) {
+      cellSize = cellSize || 2;
+      var length = _this.getModuleCount();
+      for (var row = 0; row < length; row++) {
+        for (var col = 0; col < length; col++) {
+          context.fillStyle = _this.isDark(row, col) ? 'black' : 'white';
+          context.fillRect(row * cellSize, col * cellSize, cellSize, cellSize);
+        }
+      }
+    }
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // qrcode.stringToBytes
+  //---------------------------------------------------------------------
+
+  qrcode.stringToBytesFuncs = {
+    'default' : function(s) {
+      var bytes = [];
+      for (var i = 0; i < s.length; i += 1) {
+        var c = s.charCodeAt(i);
+        bytes.push(c & 0xff);
+      }
+      return bytes;
+    }
+  };
+
+  qrcode.stringToBytes = qrcode.stringToBytesFuncs['default'];
+
+  //---------------------------------------------------------------------
+  // qrcode.createStringToBytes
+  //---------------------------------------------------------------------
+
+  /**
+   * @param unicodeData base64 string of byte array.
+   * [16bit Unicode],[16bit Bytes], ...
+   * @param numChars
+   */
+  qrcode.createStringToBytes = function(unicodeData, numChars) {
+
+    // create conversion map.
+
+    var unicodeMap = function() {
+
+      var bin = base64DecodeInputStream(unicodeData);
+      var read = function() {
+        var b = bin.read();
+        if (b == -1) throw 'eof';
+        return b;
+      };
+
+      var count = 0;
+      var unicodeMap = {};
+      while (true) {
+        var b0 = bin.read();
+        if (b0 == -1) break;
+        var b1 = read();
+        var b2 = read();
+        var b3 = read();
+        var k = String.fromCharCode( (b0 << 8) | b1);
+        var v = (b2 << 8) | b3;
+        unicodeMap[k] = v;
+        count += 1;
+      }
+      if (count != numChars) {
+        throw count + ' != ' + numChars;
+      }
+
+      return unicodeMap;
+    }();
+
+    var unknownChar = '?'.charCodeAt(0);
+
+    return function(s) {
+      var bytes = [];
+      for (var i = 0; i < s.length; i += 1) {
+        var c = s.charCodeAt(i);
+        if (c < 128) {
+          bytes.push(c);
+        } else {
+          var b = unicodeMap[s.charAt(i)];
+          if (typeof b == 'number') {
+            if ( (b & 0xff) == b) {
+              // 1byte
+              bytes.push(b);
+            } else {
+              // 2bytes
+              bytes.push(b >>> 8);
+              bytes.push(b & 0xff);
+            }
+          } else {
+            bytes.push(unknownChar);
+          }
+        }
+      }
+      return bytes;
+    };
+  };
+
+  //---------------------------------------------------------------------
+  // QRMode
+  //---------------------------------------------------------------------
+
+  var QRMode = {
+    MODE_NUMBER :    1 << 0,
+    MODE_ALPHA_NUM : 1 << 1,
+    MODE_8BIT_BYTE : 1 << 2,
+    MODE_KANJI :     1 << 3
+  };
+
+  //---------------------------------------------------------------------
+  // QRErrorCorrectionLevel
+  //---------------------------------------------------------------------
+
+  var QRErrorCorrectionLevel = {
+    L : 1,
+    M : 0,
+    Q : 3,
+    H : 2
+  };
+
+  //---------------------------------------------------------------------
+  // QRMaskPattern
+  //---------------------------------------------------------------------
+
+  var QRMaskPattern = {
+    PATTERN000 : 0,
+    PATTERN001 : 1,
+    PATTERN010 : 2,
+    PATTERN011 : 3,
+    PATTERN100 : 4,
+    PATTERN101 : 5,
+    PATTERN110 : 6,
+    PATTERN111 : 7
+  };
+
+  //---------------------------------------------------------------------
+  // QRUtil
+  //---------------------------------------------------------------------
+
+  var QRUtil = function() {
+
+    var PATTERN_POSITION_TABLE = [
+      [],
+      [6, 18],
+      [6, 22],
+      [6, 26],
+      [6, 30],
+      [6, 34],
+      [6, 22, 38],
+      [6, 24, 42],
+      [6, 26, 46],
+      [6, 28, 50],
+      [6, 30, 54],
+      [6, 32, 58],
+      [6, 34, 62],
+      [6, 26, 46, 66],
+      [6, 26, 48, 70],
+      [6, 26, 50, 74],
+      [6, 30, 54, 78],
+      [6, 30, 56, 82],
+      [6, 30, 58, 86],
+      [6, 34, 62, 90],
+      [6, 28, 50, 72, 94],
+      [6, 26, 50, 74, 98],
+      [6, 30, 54, 78, 102],
+      [6, 28, 54, 80, 106],
+      [6, 32, 58, 84, 110],
+      [6, 30, 58, 86, 114],
+      [6, 34, 62, 90, 118],
+      [6, 26, 50, 74, 98, 122],
+      [6, 30, 54, 78, 102, 126],
+      [6, 26, 52, 78, 104, 130],
+      [6, 30, 56, 82, 108, 134],
+      [6, 34, 60, 86, 112, 138],
+      [6, 30, 58, 86, 114, 142],
+      [6, 34, 62, 90, 118, 146],
+      [6, 30, 54, 78, 102, 126, 150],
+      [6, 24, 50, 76, 102, 128, 154],
+      [6, 28, 54, 80, 106, 132, 158],
+      [6, 32, 58, 84, 110, 136, 162],
+      [6, 26, 54, 82, 110, 138, 166],
+      [6, 30, 58, 86, 114, 142, 170]
+    ];
+    var G15 = (1 << 10) | (1 << 8) | (1 << 5) | (1 << 4) | (1 << 2) | (1 << 1) | (1 << 0);
+    var G18 = (1 << 12) | (1 << 11) | (1 << 10) | (1 << 9) | (1 << 8) | (1 << 5) | (1 << 2) | (1 << 0);
+    var G15_MASK = (1 << 14) | (1 << 12) | (1 << 10) | (1 << 4) | (1 << 1);
+
+    var _this = {};
+
+    var getBCHDigit = function(data) {
+      var digit = 0;
+      while (data != 0) {
+        digit += 1;
+        data >>>= 1;
+      }
+      return digit;
+    };
+
+    _this.getBCHTypeInfo = function(data) {
+      var d = data << 10;
+      while (getBCHDigit(d) - getBCHDigit(G15) >= 0) {
+        d ^= (G15 << (getBCHDigit(d) - getBCHDigit(G15) ) );
+      }
+      return ( (data << 10) | d) ^ G15_MASK;
+    };
+
+    _this.getBCHTypeNumber = function(data) {
+      var d = data << 12;
+      while (getBCHDigit(d) - getBCHDigit(G18) >= 0) {
+        d ^= (G18 << (getBCHDigit(d) - getBCHDigit(G18) ) );
+      }
+      return (data << 12) | d;
+    };
+
+    _this.getPatternPosition = function(typeNumber) {
+      return PATTERN_POSITION_TABLE[typeNumber - 1];
+    };
+
+    _this.getMaskFunction = function(maskPattern) {
+
+      switch (maskPattern) {
+
+      case QRMaskPattern.PATTERN000 :
+        return function(i, j) { return (i + j) % 2 == 0; };
+      case QRMaskPattern.PATTERN001 :
+        return function(i, j) { return i % 2 == 0; };
+      case QRMaskPattern.PATTERN010 :
+        return function(i, j) { return j % 3 == 0; };
+      case QRMaskPattern.PATTERN011 :
+        return function(i, j) { return (i + j) % 3 == 0; };
+      case QRMaskPattern.PATTERN100 :
+        return function(i, j) { return (Math.floor(i / 2) + Math.floor(j / 3) ) % 2 == 0; };
+      case QRMaskPattern.PATTERN101 :
+        return function(i, j) { return (i * j) % 2 + (i * j) % 3 == 0; };
+      case QRMaskPattern.PATTERN110 :
+        return function(i, j) { return ( (i * j) % 2 + (i * j) % 3) % 2 == 0; };
+      case QRMaskPattern.PATTERN111 :
+        return function(i, j) { return ( (i * j) % 3 + (i + j) % 2) % 2 == 0; };
+
+      default :
+        throw 'bad maskPattern:' + maskPattern;
+      }
+    };
+
+    _this.getErrorCorrectPolynomial = function(errorCorrectLength) {
+      var a = qrPolynomial([1], 0);
+      for (var i = 0; i < errorCorrectLength; i += 1) {
+        a = a.multiply(qrPolynomial([1, QRMath.gexp(i)], 0) );
+      }
+      return a;
+    };
+
+    _this.getLengthInBits = function(mode, type) {
+
+      if (1 <= type && type < 10) {
+
+        // 1 - 9
+
+        switch(mode) {
+        case QRMode.MODE_NUMBER    : return 10;
+        case QRMode.MODE_ALPHA_NUM : return 9;
+        case QRMode.MODE_8BIT_BYTE : return 8;
+        case QRMode.MODE_KANJI     : return 8;
+        default :
+          throw 'mode:' + mode;
+        }
+
+      } else if (type < 27) {
+
+        // 10 - 26
+
+        switch(mode) {
+        case QRMode.MODE_NUMBER    : return 12;
+        case QRMode.MODE_ALPHA_NUM : return 11;
+        case QRMode.MODE_8BIT_BYTE : return 16;
+        case QRMode.MODE_KANJI     : return 10;
+        default :
+          throw 'mode:' + mode;
+        }
+
+      } else if (type < 41) {
+
+        // 27 - 40
+
+        switch(mode) {
+        case QRMode.MODE_NUMBER    : return 14;
+        case QRMode.MODE_ALPHA_NUM : return 13;
+        case QRMode.MODE_8BIT_BYTE : return 16;
+        case QRMode.MODE_KANJI     : return 12;
+        default :
+          throw 'mode:' + mode;
+        }
+
+      } else {
+        throw 'type:' + type;
+      }
+    };
+
+    _this.getLostPoint = function(qrcode) {
+
+      var moduleCount = qrcode.getModuleCount();
+
+      var lostPoint = 0;
+
+      // LEVEL1
+
+      for (var row = 0; row < moduleCount; row += 1) {
+        for (var col = 0; col < moduleCount; col += 1) {
+
+          var sameCount = 0;
+          var dark = qrcode.isDark(row, col);
+
+          for (var r = -1; r <= 1; r += 1) {
+
+            if (row + r < 0 || moduleCount <= row + r) {
+              continue;
+            }
+
+            for (var c = -1; c <= 1; c += 1) {
+
+              if (col + c < 0 || moduleCount <= col + c) {
+                continue;
+              }
+
+              if (r == 0 && c == 0) {
+                continue;
+              }
+
+              if (dark == qrcode.isDark(row + r, col + c) ) {
+                sameCount += 1;
+              }
+            }
+          }
+
+          if (sameCount > 5) {
+            lostPoint += (3 + sameCount - 5);
+          }
+        }
+      };
+
+      // LEVEL2
+
+      for (var row = 0; row < moduleCount - 1; row += 1) {
+        for (var col = 0; col < moduleCount - 1; col += 1) {
+          var count = 0;
+          if (qrcode.isDark(row, col) ) count += 1;
+          if (qrcode.isDark(row + 1, col) ) count += 1;
+          if (qrcode.isDark(row, col + 1) ) count += 1;
+          if (qrcode.isDark(row + 1, col + 1) ) count += 1;
+          if (count == 0 || count == 4) {
+            lostPoint += 3;
+          }
+        }
+      }
+
+      // LEVEL3
+
+      for (var row = 0; row < moduleCount; row += 1) {
+        for (var col = 0; col < moduleCount - 6; col += 1) {
+          if (qrcode.isDark(row, col)
+              && !qrcode.isDark(row, col + 1)
+              &&  qrcode.isDark(row, col + 2)
+              &&  qrcode.isDark(row, col + 3)
+              &&  qrcode.isDark(row, col + 4)
+              && !qrcode.isDark(row, col + 5)
+              &&  qrcode.isDark(row, col + 6) ) {
+            lostPoint += 40;
+          }
+        }
+      }
+
+      for (var col = 0; col < moduleCount; col += 1) {
+        for (var row = 0; row < moduleCount - 6; row += 1) {
+          if (qrcode.isDark(row, col)
+              && !qrcode.isDark(row + 1, col)
+              &&  qrcode.isDark(row + 2, col)
+              &&  qrcode.isDark(row + 3, col)
+              &&  qrcode.isDark(row + 4, col)
+              && !qrcode.isDark(row + 5, col)
+              &&  qrcode.isDark(row + 6, col) ) {
+            lostPoint += 40;
+          }
+        }
+      }
+
+      // LEVEL4
+
+      var darkCount = 0;
+
+      for (var col = 0; col < moduleCount; col += 1) {
+        for (var row = 0; row < moduleCount; row += 1) {
+          if (qrcode.isDark(row, col) ) {
+            darkCount += 1;
+          }
+        }
+      }
+
+      var ratio = Math.abs(100 * darkCount / moduleCount / moduleCount - 50) / 5;
+      lostPoint += ratio * 10;
+
+      return lostPoint;
+    };
+
+    return _this;
+  }();
+
+  //---------------------------------------------------------------------
+  // QRMath
+  //---------------------------------------------------------------------
+
+  var QRMath = function() {
+
+    var EXP_TABLE = new Array(256);
+    var LOG_TABLE = new Array(256);
+
+    // initialize tables
+    for (var i = 0; i < 8; i += 1) {
+      EXP_TABLE[i] = 1 << i;
+    }
+    for (var i = 8; i < 256; i += 1) {
+      EXP_TABLE[i] = EXP_TABLE[i - 4]
+        ^ EXP_TABLE[i - 5]
+        ^ EXP_TABLE[i - 6]
+        ^ EXP_TABLE[i - 8];
+    }
+    for (var i = 0; i < 255; i += 1) {
+      LOG_TABLE[EXP_TABLE[i] ] = i;
+    }
+
+    var _this = {};
+
+    _this.glog = function(n) {
+
+      if (n < 1) {
+        throw 'glog(' + n + ')';
+      }
+
+      return LOG_TABLE[n];
+    };
+
+    _this.gexp = function(n) {
+
+      while (n < 0) {
+        n += 255;
+      }
+
+      while (n >= 256) {
+        n -= 255;
+      }
+
+      return EXP_TABLE[n];
+    };
+
+    return _this;
+  }();
+
+  //---------------------------------------------------------------------
+  // qrPolynomial
+  //---------------------------------------------------------------------
+
+  function qrPolynomial(num, shift) {
+
+    if (typeof num.length == 'undefined') {
+      throw num.length + '/' + shift;
+    }
+
+    var _num = function() {
+      var offset = 0;
+      while (offset < num.length && num[offset] == 0) {
+        offset += 1;
+      }
+      var _num = new Array(num.length - offset + shift);
+      for (var i = 0; i < num.length - offset; i += 1) {
+        _num[i] = num[i + offset];
+      }
+      return _num;
+    }();
+
+    var _this = {};
+
+    _this.getAt = function(index) {
+      return _num[index];
+    };
+
+    _this.getLength = function() {
+      return _num.length;
+    };
+
+    _this.multiply = function(e) {
+
+      var num = new Array(_this.getLength() + e.getLength() - 1);
+
+      for (var i = 0; i < _this.getLength(); i += 1) {
+        for (var j = 0; j < e.getLength(); j += 1) {
+          num[i + j] ^= QRMath.gexp(QRMath.glog(_this.getAt(i) ) + QRMath.glog(e.getAt(j) ) );
+        }
+      }
+
+      return qrPolynomial(num, 0);
+    };
+
+    _this.mod = function(e) {
+
+      if (_this.getLength() - e.getLength() < 0) {
+        return _this;
+      }
+
+      var ratio = QRMath.glog(_this.getAt(0) ) - QRMath.glog(e.getAt(0) );
+
+      var num = new Array(_this.getLength() );
+      for (var i = 0; i < _this.getLength(); i += 1) {
+        num[i] = _this.getAt(i);
+      }
+
+      for (var i = 0; i < e.getLength(); i += 1) {
+        num[i] ^= QRMath.gexp(QRMath.glog(e.getAt(i) ) + ratio);
+      }
+
+      // recursive call
+      return qrPolynomial(num, 0).mod(e);
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // QRRSBlock
+  //---------------------------------------------------------------------
+
+  var QRRSBlock = function() {
+
+    var RS_BLOCK_TABLE = [
+
+      // L
+      // M
+      // Q
+      // H
+
+      // 1
+      [1, 26, 19],
+      [1, 26, 16],
+      [1, 26, 13],
+      [1, 26, 9],
+
+      // 2
+      [1, 44, 34],
+      [1, 44, 28],
+      [1, 44, 22],
+      [1, 44, 16],
+
+      // 3
+      [1, 70, 55],
+      [1, 70, 44],
+      [2, 35, 17],
+      [2, 35, 13],
+
+      // 4
+      [1, 100, 80],
+      [2, 50, 32],
+      [2, 50, 24],
+      [4, 25, 9],
+
+      // 5
+      [1, 134, 108],
+      [2, 67, 43],
+      [2, 33, 15, 2, 34, 16],
+      [2, 33, 11, 2, 34, 12],
+
+      // 6
+      [2, 86, 68],
+      [4, 43, 27],
+      [4, 43, 19],
+      [4, 43, 15],
+
+      // 7
+      [2, 98, 78],
+      [4, 49, 31],
+      [2, 32, 14, 4, 33, 15],
+      [4, 39, 13, 1, 40, 14],
+
+      // 8
+      [2, 121, 97],
+      [2, 60, 38, 2, 61, 39],
+      [4, 40, 18, 2, 41, 19],
+      [4, 40, 14, 2, 41, 15],
+
+      // 9
+      [2, 146, 116],
+      [3, 58, 36, 2, 59, 37],
+      [4, 36, 16, 4, 37, 17],
+      [4, 36, 12, 4, 37, 13],
+
+      // 10
+      [2, 86, 68, 2, 87, 69],
+      [4, 69, 43, 1, 70, 44],
+      [6, 43, 19, 2, 44, 20],
+      [6, 43, 15, 2, 44, 16],
+
+      // 11
+      [4, 101, 81],
+      [1, 80, 50, 4, 81, 51],
+      [4, 50, 22, 4, 51, 23],
+      [3, 36, 12, 8, 37, 13],
+
+      // 12
+      [2, 116, 92, 2, 117, 93],
+      [6, 58, 36, 2, 59, 37],
+      [4, 46, 20, 6, 47, 21],
+      [7, 42, 14, 4, 43, 15],
+
+      // 13
+      [4, 133, 107],
+      [8, 59, 37, 1, 60, 38],
+      [8, 44, 20, 4, 45, 21],
+      [12, 33, 11, 4, 34, 12],
+
+      // 14
+      [3, 145, 115, 1, 146, 116],
+      [4, 64, 40, 5, 65, 41],
+      [11, 36, 16, 5, 37, 17],
+      [11, 36, 12, 5, 37, 13],
+
+      // 15
+      [5, 109, 87, 1, 110, 88],
+      [5, 65, 41, 5, 66, 42],
+      [5, 54, 24, 7, 55, 25],
+      [11, 36, 12, 7, 37, 13],
+
+      // 16
+      [5, 122, 98, 1, 123, 99],
+      [7, 73, 45, 3, 74, 46],
+      [15, 43, 19, 2, 44, 20],
+      [3, 45, 15, 13, 46, 16],
+
+      // 17
+      [1, 135, 107, 5, 136, 108],
+      [10, 74, 46, 1, 75, 47],
+      [1, 50, 22, 15, 51, 23],
+      [2, 42, 14, 17, 43, 15],
+
+      // 18
+      [5, 150, 120, 1, 151, 121],
+      [9, 69, 43, 4, 70, 44],
+      [17, 50, 22, 1, 51, 23],
+      [2, 42, 14, 19, 43, 15],
+
+      // 19
+      [3, 141, 113, 4, 142, 114],
+      [3, 70, 44, 11, 71, 45],
+      [17, 47, 21, 4, 48, 22],
+      [9, 39, 13, 16, 40, 14],
+
+      // 20
+      [3, 135, 107, 5, 136, 108],
+      [3, 67, 41, 13, 68, 42],
+      [15, 54, 24, 5, 55, 25],
+      [15, 43, 15, 10, 44, 16],
+
+      // 21
+      [4, 144, 116, 4, 145, 117],
+      [17, 68, 42],
+      [17, 50, 22, 6, 51, 23],
+      [19, 46, 16, 6, 47, 17],
+
+      // 22
+      [2, 139, 111, 7, 140, 112],
+      [17, 74, 46],
+      [7, 54, 24, 16, 55, 25],
+      [34, 37, 13],
+
+      // 23
+      [4, 151, 121, 5, 152, 122],
+      [4, 75, 47, 14, 76, 48],
+      [11, 54, 24, 14, 55, 25],
+      [16, 45, 15, 14, 46, 16],
+
+      // 24
+      [6, 147, 117, 4, 148, 118],
+      [6, 73, 45, 14, 74, 46],
+      [11, 54, 24, 16, 55, 25],
+      [30, 46, 16, 2, 47, 17],
+
+      // 25
+      [8, 132, 106, 4, 133, 107],
+      [8, 75, 47, 13, 76, 48],
+      [7, 54, 24, 22, 55, 25],
+      [22, 45, 15, 13, 46, 16],
+
+      // 26
+      [10, 142, 114, 2, 143, 115],
+      [19, 74, 46, 4, 75, 47],
+      [28, 50, 22, 6, 51, 23],
+      [33, 46, 16, 4, 47, 17],
+
+      // 27
+      [8, 152, 122, 4, 153, 123],
+      [22, 73, 45, 3, 74, 46],
+      [8, 53, 23, 26, 54, 24],
+      [12, 45, 15, 28, 46, 16],
+
+      // 28
+      [3, 147, 117, 10, 148, 118],
+      [3, 73, 45, 23, 74, 46],
+      [4, 54, 24, 31, 55, 25],
+      [11, 45, 15, 31, 46, 16],
+
+      // 29
+      [7, 146, 116, 7, 147, 117],
+      [21, 73, 45, 7, 74, 46],
+      [1, 53, 23, 37, 54, 24],
+      [19, 45, 15, 26, 46, 16],
+
+      // 30
+      [5, 145, 115, 10, 146, 116],
+      [19, 75, 47, 10, 76, 48],
+      [15, 54, 24, 25, 55, 25],
+      [23, 45, 15, 25, 46, 16],
+
+      // 31
+      [13, 145, 115, 3, 146, 116],
+      [2, 74, 46, 29, 75, 47],
+      [42, 54, 24, 1, 55, 25],
+      [23, 45, 15, 28, 46, 16],
+
+      // 32
+      [17, 145, 115],
+      [10, 74, 46, 23, 75, 47],
+      [10, 54, 24, 35, 55, 25],
+      [19, 45, 15, 35, 46, 16],
+
+      // 33
+      [17, 145, 115, 1, 146, 116],
+      [14, 74, 46, 21, 75, 47],
+      [29, 54, 24, 19, 55, 25],
+      [11, 45, 15, 46, 46, 16],
+
+      // 34
+      [13, 145, 115, 6, 146, 116],
+      [14, 74, 46, 23, 75, 47],
+      [44, 54, 24, 7, 55, 25],
+      [59, 46, 16, 1, 47, 17],
+
+      // 35
+      [12, 151, 121, 7, 152, 122],
+      [12, 75, 47, 26, 76, 48],
+      [39, 54, 24, 14, 55, 25],
+      [22, 45, 15, 41, 46, 16],
+
+      // 36
+      [6, 151, 121, 14, 152, 122],
+      [6, 75, 47, 34, 76, 48],
+      [46, 54, 24, 10, 55, 25],
+      [2, 45, 15, 64, 46, 16],
+
+      // 37
+      [17, 152, 122, 4, 153, 123],
+      [29, 74, 46, 14, 75, 47],
+      [49, 54, 24, 10, 55, 25],
+      [24, 45, 15, 46, 46, 16],
+
+      // 38
+      [4, 152, 122, 18, 153, 123],
+      [13, 74, 46, 32, 75, 47],
+      [48, 54, 24, 14, 55, 25],
+      [42, 45, 15, 32, 46, 16],
+
+      // 39
+      [20, 147, 117, 4, 148, 118],
+      [40, 75, 47, 7, 76, 48],
+      [43, 54, 24, 22, 55, 25],
+      [10, 45, 15, 67, 46, 16],
+
+      // 40
+      [19, 148, 118, 6, 149, 119],
+      [18, 75, 47, 31, 76, 48],
+      [34, 54, 24, 34, 55, 25],
+      [20, 45, 15, 61, 46, 16]
+    ];
+
+    var qrRSBlock = function(totalCount, dataCount) {
+      var _this = {};
+      _this.totalCount = totalCount;
+      _this.dataCount = dataCount;
+      return _this;
+    };
+
+    var _this = {};
+
+    var getRsBlockTable = function(typeNumber, errorCorrectionLevel) {
+
+      switch(errorCorrectionLevel) {
+      case QRErrorCorrectionLevel.L :
+        return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 0];
+      case QRErrorCorrectionLevel.M :
+        return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 1];
+      case QRErrorCorrectionLevel.Q :
+        return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 2];
+      case QRErrorCorrectionLevel.H :
+        return RS_BLOCK_TABLE[(typeNumber - 1) * 4 + 3];
+      default :
+        return undefined;
+      }
+    };
+
+    _this.getRSBlocks = function(typeNumber, errorCorrectionLevel) {
+
+      var rsBlock = getRsBlockTable(typeNumber, errorCorrectionLevel);
+
+      if (typeof rsBlock == 'undefined') {
+        throw 'bad rs block @ typeNumber:' + typeNumber +
+            '/errorCorrectionLevel:' + errorCorrectionLevel;
+      }
+
+      var length = rsBlock.length / 3;
+
+      var list = [];
+
+      for (var i = 0; i < length; i += 1) {
+
+        var count = rsBlock[i * 3 + 0];
+        var totalCount = rsBlock[i * 3 + 1];
+        var dataCount = rsBlock[i * 3 + 2];
+
+        for (var j = 0; j < count; j += 1) {
+          list.push(qrRSBlock(totalCount, dataCount) );
+        }
+      }
+
+      return list;
+    };
+
+    return _this;
+  }();
+
+  //---------------------------------------------------------------------
+  // qrBitBuffer
+  //---------------------------------------------------------------------
+
+  var qrBitBuffer = function() {
+
+    var _buffer = [];
+    var _length = 0;
+
+    var _this = {};
+
+    _this.getBuffer = function() {
+      return _buffer;
+    };
+
+    _this.getAt = function(index) {
+      var bufIndex = Math.floor(index / 8);
+      return ( (_buffer[bufIndex] >>> (7 - index % 8) ) & 1) == 1;
+    };
+
+    _this.put = function(num, length) {
+      for (var i = 0; i < length; i += 1) {
+        _this.putBit( ( (num >>> (length - i - 1) ) & 1) == 1);
+      }
+    };
+
+    _this.getLengthInBits = function() {
+      return _length;
+    };
+
+    _this.putBit = function(bit) {
+
+      var bufIndex = Math.floor(_length / 8);
+      if (_buffer.length <= bufIndex) {
+        _buffer.push(0);
+      }
+
+      if (bit) {
+        _buffer[bufIndex] |= (0x80 >>> (_length % 8) );
+      }
+
+      _length += 1;
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // qrNumber
+  //---------------------------------------------------------------------
+
+  var qrNumber = function(data) {
+
+    var _mode = QRMode.MODE_NUMBER;
+    var _data = data;
+
+    var _this = {};
+
+    _this.getMode = function() {
+      return _mode;
+    };
+
+    _this.getLength = function(buffer) {
+      return _data.length;
+    };
+
+    _this.write = function(buffer) {
+
+      var data = _data;
+
+      var i = 0;
+
+      while (i + 2 < data.length) {
+        buffer.put(strToNum(data.substring(i, i + 3) ), 10);
+        i += 3;
+      }
+
+      if (i < data.length) {
+        if (data.length - i == 1) {
+          buffer.put(strToNum(data.substring(i, i + 1) ), 4);
+        } else if (data.length - i == 2) {
+          buffer.put(strToNum(data.substring(i, i + 2) ), 7);
+        }
+      }
+    };
+
+    var strToNum = function(s) {
+      var num = 0;
+      for (var i = 0; i < s.length; i += 1) {
+        num = num * 10 + chatToNum(s.charAt(i) );
+      }
+      return num;
+    };
+
+    var chatToNum = function(c) {
+      if ('0' <= c && c <= '9') {
+        return c.charCodeAt(0) - '0'.charCodeAt(0);
+      }
+      throw 'illegal char :' + c;
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // qrAlphaNum
+  //---------------------------------------------------------------------
+
+  var qrAlphaNum = function(data) {
+
+    var _mode = QRMode.MODE_ALPHA_NUM;
+    var _data = data;
+
+    var _this = {};
+
+    _this.getMode = function() {
+      return _mode;
+    };
+
+    _this.getLength = function(buffer) {
+      return _data.length;
+    };
+
+    _this.write = function(buffer) {
+
+      var s = _data;
+
+      var i = 0;
+
+      while (i + 1 < s.length) {
+        buffer.put(
+          getCode(s.charAt(i) ) * 45 +
+          getCode(s.charAt(i + 1) ), 11);
+        i += 2;
+      }
+
+      if (i < s.length) {
+        buffer.put(getCode(s.charAt(i) ), 6);
+      }
+    };
+
+    var getCode = function(c) {
+
+      if ('0' <= c && c <= '9') {
+        return c.charCodeAt(0) - '0'.charCodeAt(0);
+      } else if ('A' <= c && c <= 'Z') {
+        return c.charCodeAt(0) - 'A'.charCodeAt(0) + 10;
+      } else {
+        switch (c) {
+        case ' ' : return 36;
+        case '$' : return 37;
+        case '%' : return 38;
+        case '*' : return 39;
+        case '+' : return 40;
+        case '-' : return 41;
+        case '.' : return 42;
+        case '/' : return 43;
+        case ':' : return 44;
+        default :
+          throw 'illegal char :' + c;
+        }
+      }
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // qr8BitByte
+  //---------------------------------------------------------------------
+
+  var qr8BitByte = function(data) {
+
+    var _mode = QRMode.MODE_8BIT_BYTE;
+    var _data = data;
+    var _bytes = qrcode.stringToBytes(data);
+
+    var _this = {};
+
+    _this.getMode = function() {
+      return _mode;
+    };
+
+    _this.getLength = function(buffer) {
+      return _bytes.length;
+    };
+
+    _this.write = function(buffer) {
+      for (var i = 0; i < _bytes.length; i += 1) {
+        buffer.put(_bytes[i], 8);
+      }
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // qrKanji
+  //---------------------------------------------------------------------
+
+  var qrKanji = function(data) {
+
+    var _mode = QRMode.MODE_KANJI;
+    var _data = data;
+
+    var stringToBytes = qrcode.stringToBytesFuncs['SJIS'];
+    if (!stringToBytes) {
+      throw 'sjis not supported.';
+    }
+    !function(c, code) {
+      // self test for sjis support.
+      var test = stringToBytes(c);
+      if (test.length != 2 || ( (test[0] << 8) | test[1]) != code) {
+        throw 'sjis not supported.';
+      }
+    }('\u53cb', 0x9746);
+
+    var _bytes = stringToBytes(data);
+
+    var _this = {};
+
+    _this.getMode = function() {
+      return _mode;
+    };
+
+    _this.getLength = function(buffer) {
+      return ~~(_bytes.length / 2);
+    };
+
+    _this.write = function(buffer) {
+
+      var data = _bytes;
+
+      var i = 0;
+
+      while (i + 1 < data.length) {
+
+        var c = ( (0xff & data[i]) << 8) | (0xff & data[i + 1]);
+
+        if (0x8140 <= c && c <= 0x9FFC) {
+          c -= 0x8140;
+        } else if (0xE040 <= c && c <= 0xEBBF) {
+          c -= 0xC140;
+        } else {
+          throw 'illegal char at ' + (i + 1) + '/' + c;
+        }
+
+        c = ( (c >>> 8) & 0xff) * 0xC0 + (c & 0xff);
+
+        buffer.put(c, 13);
+
+        i += 2;
+      }
+
+      if (i < data.length) {
+        throw 'illegal char at ' + (i + 1);
+      }
+    };
+
+    return _this;
+  };
+
+  //=====================================================================
+  // GIF Support etc.
+  //
+
+  //---------------------------------------------------------------------
+  // byteArrayOutputStream
+  //---------------------------------------------------------------------
+
+  var byteArrayOutputStream = function() {
+
+    var _bytes = [];
+
+    var _this = {};
+
+    _this.writeByte = function(b) {
+      _bytes.push(b & 0xff);
+    };
+
+    _this.writeShort = function(i) {
+      _this.writeByte(i);
+      _this.writeByte(i >>> 8);
+    };
+
+    _this.writeBytes = function(b, off, len) {
+      off = off || 0;
+      len = len || b.length;
+      for (var i = 0; i < len; i += 1) {
+        _this.writeByte(b[i + off]);
+      }
+    };
+
+    _this.writeString = function(s) {
+      for (var i = 0; i < s.length; i += 1) {
+        _this.writeByte(s.charCodeAt(i) );
+      }
+    };
+
+    _this.toByteArray = function() {
+      return _bytes;
+    };
+
+    _this.toString = function() {
+      var s = '';
+      s += '[';
+      for (var i = 0; i < _bytes.length; i += 1) {
+        if (i > 0) {
+          s += ',';
+        }
+        s += _bytes[i];
+      }
+      s += ']';
+      return s;
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // base64EncodeOutputStream
+  //---------------------------------------------------------------------
+
+  var base64EncodeOutputStream = function() {
+
+    var _buffer = 0;
+    var _buflen = 0;
+    var _length = 0;
+    var _base64 = '';
+
+    var _this = {};
+
+    var writeEncoded = function(b) {
+      _base64 += String.fromCharCode(encode(b & 0x3f) );
+    };
+
+    var encode = function(n) {
+      if (n < 0) {
+        // error.
+      } else if (n < 26) {
+        return 0x41 + n;
+      } else if (n < 52) {
+        return 0x61 + (n - 26);
+      } else if (n < 62) {
+        return 0x30 + (n - 52);
+      } else if (n == 62) {
+        return 0x2b;
+      } else if (n == 63) {
+        return 0x2f;
+      }
+      throw 'n:' + n;
+    };
+
+    _this.writeByte = function(n) {
+
+      _buffer = (_buffer << 8) | (n & 0xff);
+      _buflen += 8;
+      _length += 1;
+
+      while (_buflen >= 6) {
+        writeEncoded(_buffer >>> (_buflen - 6) );
+        _buflen -= 6;
+      }
+    };
+
+    _this.flush = function() {
+
+      if (_buflen > 0) {
+        writeEncoded(_buffer << (6 - _buflen) );
+        _buffer = 0;
+        _buflen = 0;
+      }
+
+      if (_length % 3 != 0) {
+        // padding
+        var padlen = 3 - _length % 3;
+        for (var i = 0; i < padlen; i += 1) {
+          _base64 += '=';
+        }
+      }
+    };
+
+    _this.toString = function() {
+      return _base64;
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // base64DecodeInputStream
+  //---------------------------------------------------------------------
+
+  var base64DecodeInputStream = function(str) {
+
+    var _str = str;
+    var _pos = 0;
+    var _buffer = 0;
+    var _buflen = 0;
+
+    var _this = {};
+
+    _this.read = function() {
+
+      while (_buflen < 8) {
+
+        if (_pos >= _str.length) {
+          if (_buflen == 0) {
+            return -1;
+          }
+          throw 'unexpected end of file./' + _buflen;
+        }
+
+        var c = _str.charAt(_pos);
+        _pos += 1;
+
+        if (c == '=') {
+          _buflen = 0;
+          return -1;
+        } else if (c.match(/^\s$/) ) {
+          // ignore if whitespace.
+          continue;
+        }
+
+        _buffer = (_buffer << 6) | decode(c.charCodeAt(0) );
+        _buflen += 6;
+      }
+
+      var n = (_buffer >>> (_buflen - 8) ) & 0xff;
+      _buflen -= 8;
+      return n;
+    };
+
+    var decode = function(c) {
+      if (0x41 <= c && c <= 0x5a) {
+        return c - 0x41;
+      } else if (0x61 <= c && c <= 0x7a) {
+        return c - 0x61 + 26;
+      } else if (0x30 <= c && c <= 0x39) {
+        return c - 0x30 + 52;
+      } else if (c == 0x2b) {
+        return 62;
+      } else if (c == 0x2f) {
+        return 63;
+      } else {
+        throw 'c:' + c;
+      }
+    };
+
+    return _this;
+  };
+
+  //---------------------------------------------------------------------
+  // gifImage (B/W)
+  //---------------------------------------------------------------------
+
+  var gifImage = function(width, height) {
+
+    var _width = width;
+    var _height = height;
+    var _data = new Array(width * height);
+
+    var _this = {};
+
+    _this.setPixel = function(x, y, pixel) {
+      _data[y * _width + x] = pixel;
+    };
+
+    _this.write = function(out) {
+
+      //---------------------------------
+      // GIF Signature
+
+      out.writeString('GIF87a');
+
+      //---------------------------------
+      // Screen Descriptor
+
+      out.writeShort(_width);
+      out.writeShort(_height);
+
+      out.writeByte(0x80); // 2bit
+      out.writeByte(0);
+      out.writeByte(0);
+
+      //---------------------------------
+      // Global Color Map
+
+      // black
+      out.writeByte(0x00);
+      out.writeByte(0x00);
+      out.writeByte(0x00);
+
+      // white
+      out.writeByte(0xff);
+      out.writeByte(0xff);
+      out.writeByte(0xff);
+
+      //---------------------------------
+      // Image Descriptor
+
+      out.writeString(',');
+      out.writeShort(0);
+      out.writeShort(0);
+      out.writeShort(_width);
+      out.writeShort(_height);
+      out.writeByte(0);
+
+      //---------------------------------
+      // Local Color Map
+
+      //---------------------------------
+      // Raster Data
+
+      var lzwMinCodeSize = 2;
+      var raster = getLZWRaster(lzwMinCodeSize);
+
+      out.writeByte(lzwMinCodeSize);
+
+      var offset = 0;
+
+      while (raster.length - offset > 255) {
+        out.writeByte(255);
+        out.writeBytes(raster, offset, 255);
+        offset += 255;
+      }
+
+      out.writeByte(raster.length - offset);
+      out.writeBytes(raster, offset, raster.length - offset);
+      out.writeByte(0x00);
+
+      //---------------------------------
+      // GIF Terminator
+      out.writeString(';');
+    };
+
+    var bitOutputStream = function(out) {
+
+      var _out = out;
+      var _bitLength = 0;
+      var _bitBuffer = 0;
+
+      var _this = {};
+
+      _this.write = function(data, length) {
+
+        if ( (data >>> length) != 0) {
+          throw 'length over';
+        }
+
+        while (_bitLength + length >= 8) {
+          _out.writeByte(0xff & ( (data << _bitLength) | _bitBuffer) );
+          length -= (8 - _bitLength);
+          data >>>= (8 - _bitLength);
+          _bitBuffer = 0;
+          _bitLength = 0;
+        }
+
+        _bitBuffer = (data << _bitLength) | _bitBuffer;
+        _bitLength = _bitLength + length;
+      };
+
+      _this.flush = function() {
+        if (_bitLength > 0) {
+          _out.writeByte(_bitBuffer);
+        }
+      };
+
+      return _this;
+    };
+
+    var getLZWRaster = function(lzwMinCodeSize) {
+
+      var clearCode = 1 << lzwMinCodeSize;
+      var endCode = (1 << lzwMinCodeSize) + 1;
+      var bitLength = lzwMinCodeSize + 1;
+
+      // Setup LZWTable
+      var table = lzwTable();
+
+      for (var i = 0; i < clearCode; i += 1) {
+        table.add(String.fromCharCode(i) );
+      }
+      table.add(String.fromCharCode(clearCode) );
+      table.add(String.fromCharCode(endCode) );
+
+      var byteOut = byteArrayOutputStream();
+      var bitOut = bitOutputStream(byteOut);
+
+      // clear code
+      bitOut.write(clearCode, bitLength);
+
+      var dataIndex = 0;
+
+      var s = String.fromCharCode(_data[dataIndex]);
+      dataIndex += 1;
+
+      while (dataIndex < _data.length) {
+
+        var c = String.fromCharCode(_data[dataIndex]);
+        dataIndex += 1;
+
+        if (table.contains(s + c) ) {
+
+          s = s + c;
+
+        } else {
+
+          bitOut.write(table.indexOf(s), bitLength);
+
+          if (table.size() < 0xfff) {
+
+            if (table.size() == (1 << bitLength) ) {
+              bitLength += 1;
+            }
+
+            table.add(s + c);
+          }
+
+          s = c;
+        }
+      }
+
+      bitOut.write(table.indexOf(s), bitLength);
+
+      // end code
+      bitOut.write(endCode, bitLength);
+
+      bitOut.flush();
+
+      return byteOut.toByteArray();
+    };
+
+    var lzwTable = function() {
+
+      var _map = {};
+      var _size = 0;
+
+      var _this = {};
+
+      _this.add = function(key) {
+        if (_this.contains(key) ) {
+          throw 'dup key:' + key;
+        }
+        _map[key] = _size;
+        _size += 1;
+      };
+
+      _this.size = function() {
+        return _size;
+      };
+
+      _this.indexOf = function(key) {
+        return _map[key];
+      };
+
+      _this.contains = function(key) {
+        return typeof _map[key] != 'undefined';
+      };
+
+      return _this;
+    };
+
+    return _this;
+  };
+
+  var createDataURL = function(width, height, getPixel) {
+    var gif = gifImage(width, height);
+    for (var y = 0; y < height; y += 1) {
+      for (var x = 0; x < width; x += 1) {
+        gif.setPixel(x, y, getPixel(x, y) );
+      }
+    }
+
+    var b = byteArrayOutputStream();
+    gif.write(b);
+
+    var base64 = base64EncodeOutputStream();
+    var bytes = b.toByteArray();
+    for (var i = 0; i < bytes.length; i += 1) {
+      base64.writeByte(bytes[i]);
+    }
+    base64.flush();
+
+    return 'data:image/gif;base64,' + base64;
+  };
+
+  //---------------------------------------------------------------------
+  // returns qrcode function.
+
+  return qrcode;
+}();
+
+// multibyte support
+!function() {
+
+  qrcode.stringToBytesFuncs['UTF-8'] = function(s) {
+    // http://stackoverflow.com/questions/18729405/how-to-convert-utf8-string-to-byte-array
+    function toUTF8Array(str) {
+      var utf8 = [];
+      for (var i=0; i < str.length; i++) {
+        var charcode = str.charCodeAt(i);
+        if (charcode < 0x80) utf8.push(charcode);
+        else if (charcode < 0x800) {
+          utf8.push(0xc0 | (charcode >> 6),
+              0x80 | (charcode & 0x3f));
+        }
+        else if (charcode < 0xd800 || charcode >= 0xe000) {
+          utf8.push(0xe0 | (charcode >> 12),
+              0x80 | ((charcode>>6) & 0x3f),
+              0x80 | (charcode & 0x3f));
+        }
+        // surrogate pair
+        else {
+          i++;
+          // UTF-16 encodes 0x10000-0x10FFFF by
+          // subtracting 0x10000 and splitting the
+          // 20 bits of 0x0-0xFFFFF into two halves
+          charcode = 0x10000 + (((charcode & 0x3ff)<<10)
+            | (str.charCodeAt(i) & 0x3ff));
+          utf8.push(0xf0 | (charcode >>18),
+              0x80 | ((charcode>>12) & 0x3f),
+              0x80 | ((charcode>>6) & 0x3f),
+              0x80 | (charcode & 0x3f));
+        }
+      }
+      return utf8;
+    }
+    return toUTF8Array(s);
+  };
+
+}();
+
+(function (factory) {
+  if (typeof define === 'function' && define.amd) {
+      define([], factory);
+  } else if (typeof exports === 'object') {
+      module.exports = factory();
+  }
+}(function () {
+    return qrcode;
+}));
+
+</script>
+<script>
+(function(){
+"use strict";
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const DEG=Math.PI/180;
+const SHORT={op:'Opuesto',ad:'Adyacente',hi:'Hipotenusa'};
+const rand=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+const f2=v=>(Math.round(v*100)/100).toFixed(2);
+const f4=v=>(Math.round(v*10000)/10000).toFixed(4);
+function unit(x,y){const l=Math.hypot(x,y)||1;return{x:x/l,y:y/l};}
+function svgPt(svg,e){const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;return p.matrixTransform(svg.getScreenCTM().inverse());}
+const isCalm=()=>document.body.classList.contains('calm');
+
+/* ---------- Modo calma ---------- */
+const calmBtn=$('#calmBtn');
+function setCalm(on){document.body.classList.toggle('calm',on);calmBtn.textContent=on?'✨ Activar movimiento':'🌙 Menos movimiento';}
+calmBtn.onclick=()=>setCalm(!isCalm());
+if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches) setCalm(true);
+
+/* ---------- Efectos ---------- */
+function confetti(n){if(isCalm())return;const c=['#e5484d','#2f74f5','#0fa37f','#f59f00','#6d4aff'];for(let i=0;i<(n||50);i++){const d=document.createElement('i');d.className='confetti';d.style.left=Math.random()*100+'vw';d.style.background=c[i%5];d.style.animationDelay=Math.random()*.6+'s';d.style.animationDuration=(2+Math.random()*1.5)+'s';document.body.appendChild(d);setTimeout(()=>d.remove(),4300);}}
+function badge(el,txt){el.innerHTML=`<span class="badge">${txt}</span>`;confetti(40);}
+
+/* ---------- Triángulo genérico ---------- */
+function arc(V,P1,P2,r){const u1=unit(P1.x-V.x,P1.y-V.y),u2=unit(P2.x-V.x,P2.y-V.y);const s={x:V.x+u1.x*r,y:V.y+u1.y*r},e={x:V.x+u2.x*r,y:V.y+u2.y*r};const sw=(u1.x*u2.y-u1.y*u2.x)>0?1:0;return{d:`M${V.x} ${V.y} L${s.x} ${s.y} A${r} ${r} 0 0 ${sw} ${e.x} ${e.y} Z`,bis:unit(u1.x+u2.x,u1.y+u2.y)};}
+function fit(oU,aU){const s=Math.min(270/aU,180/oU);const aw=aU*s,oh=oU*s;return{x0:200-aw/2-14,yb:245,aw,oh};}
+function triSVG(o){
+  const A={x:o.x0,y:o.yb},C={x:o.x0+o.aw,y:o.yb},B={x:o.x0+o.aw,y:o.yb-o.oh};
+  const ref=o.ref||'A';
+  const role={AC:ref==='A'?'ad':'op',BC:ref==='A'?'op':'ad',AB:'hi'};
+  const seg={AC:[A,C],BC:[C,B],AB:[A,B]};
+  const hl=o.hl||[],fl=o.flash||{};
+  let s=o.pre||'';
+  s+=`<polygon points="${A.x},${A.y} ${B.x},${B.y} ${C.x},${C.y}" fill="#f4f1ff"/>`;
+  const q=Math.min(14,o.aw*.3,o.oh*.3);
+  s+=`<path d="M${C.x-q} ${C.y} L${C.x-q} ${C.y-q} L${C.x} ${C.y-q}" fill="none" stroke="#8a93ad" stroke-width="2"/>`;
+  const V=ref==='A'?A:B,P1=C,P2=ref==='A'?B:A;
+  const r=Math.max(14,Math.min(42,.38*Math.min(Math.hypot(P1.x-V.x,P1.y-V.y),Math.hypot(P2.x-V.x,P2.y-V.y))));
+  const ar=arc(V,P1,P2,r);
+  s+=`<path class="arc${o.angGlow?' glow':''}" d="${ar.d}"/>`;
+  for(const k of ['AC','BC','AB']){const ro=role[k],[P,Q]=seg[k];let c='side '+(o.mono?'mono':ro);
+    if(fl[ro])c+=' '+fl[ro];else if(hl.length)c+=hl.includes(ro)?' glow':' dim';
+    s+=`<line class="${c}" x1="${P.x}" y1="${P.y}" x2="${Q.x}" y2="${Q.y}"/>`;}
+  const at=o.ang===undefined?'θ':o.ang;
+  if(at){let x,y,an='middle';
+    if(at.length<=4){const d=r+16;x=V.x+ar.bis.x*d;y=V.y+ar.bis.y*d+6;}
+    else if(ref==='A'){x=A.x-8;y=A.y-14;an='end';}else{x=B.x-12;y=B.y-8;an='end';}
+    s+=`<text class="lbl angl${o.angGlow?' unk':''}" x="${x}" y="${y}" text-anchor="${an}">${at}</text>`;}
+  const lab=o.labels||{};
+  const M=(P,Q)=>({x:(P.x+Q.x)/2,y:(P.y+Q.y)/2});
+  const mAB=M(A,B),uAB=unit(mAB.x-C.x,mAB.y-C.y);
+  const pos={AC:{x:M(A,C).x,y:A.y+30,a:'middle'},BC:{x:C.x+14,y:M(B,C).y+6,a:'start'},AB:{x:mAB.x+uAB.x*22,y:mAB.y+uAB.y*22+6,a:uAB.x<-.55?'end':'middle'}};
+  for(const k of ['AC','BC','AB']){const ro=role[k];let t=lab[ro];if(t===undefined)t=o.names===false?'':SHORT[ro];if(!t)continue;
+    s+=`<text class="lbl ${o.mono?'':ro}${o.unknown===ro?' unk':''}" x="${pos[k].x}" y="${pos[k].y}" text-anchor="${pos[k].a}">${t}</text>`;}
+  if(o.vtx)s+=`<text class="vtx" x="${A.x-20}" y="${A.y+6}">A</text><text class="vtx" x="${B.x+10}" y="${B.y-2}">B</text><text class="vtx" x="${C.x+8}" y="${C.y+20}">C</text>`;
+  if(o.clickable)for(const k of ['AC','BC','AB']){const [P,Q]=seg[k];s+=`<line class="hit" data-role="${role[k]}" x1="${P.x}" y1="${P.y}" x2="${Q.x}" y2="${Q.y}" stroke="transparent" stroke-width="30"/>`;}
+  return s+(o.extra||'');
+}
+
+/* ---------- Navegación ---------- */
+const NAMES_ST=['Enganche','Nombrar lados','SOH-CAH-TOA','Calcular ángulos','Problemas y reto','Quiz y comprobante'];
+let cur=0;const seen=new Set([0]);
+$('#dots').innerHTML=NAMES_ST.map((n,i)=>`<button class="dot" data-i="${i}"><b>${i+1}</b><span>${n}</span></button>`).join('');
+$('#dots').onclick=e=>{const d=e.target.closest('.dot');if(d)go(+d.dataset.i);};
+function go(i){cur=Math.max(0,Math.min(5,i));seen.add(cur);ST.seen=[...seen];save();
+  $$('.station').forEach((s,j)=>s.classList.toggle('on',j===cur));
+  $$('.dot').forEach((d,j)=>{d.classList.toggle('cur',j===cur);d.classList.toggle('seen',j!==cur&&seen.has(j));});
+  $('#barfill').style.width=((cur+1)/6*100)+'%';
+  $('#prev').disabled=cur===0;$('#next').disabled=cur===5;$('#next').textContent=cur===5?'🏁 Última estación':cur===4?'Ir al quiz →':'Siguiente →';
+  window.scrollTo({top:0,behavior:isCalm()?'auto':'smooth'});
+  if(cur===2)draw3();if(cur===5)renderComp();}
+$('#prev').onclick=()=>go(cur-1);$('#next').onclick=()=>go(cur+1);
+
+/* ---------- Estación 1: escena ---------- */
+let revealed=false,justRev=false;
+function drawScene(){
+  const al=+$('#al').value;$('#alv').textContent=al+'°';
+  const t=al*DEG,sc=12,H=14,gy=275,bx1=110,bx2=175,top=gy-H*sc;
+  const sh=H/Math.tan(t),tip=bx2+sh*sc;
+  const sun={x:bx2-Math.cos(t)*100,y:top-Math.sin(t)*100};
+  let s=`<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfe6ff"/><stop offset="1" stop-color="#f3f8ff"/></linearGradient></defs>`;
+  s+=`<rect width="600" height="320" fill="url(#sky)"/><rect y="${gy}" width="600" height="${320-gy}" fill="#d9e8c9"/>`;
+  s+=`<rect x="${bx2}" y="${gy}" width="${tip-bx2}" height="7" fill="#374151" opacity=".55"/>`;
+  s+=`<rect x="${bx1}" y="${top}" width="${bx2-bx1}" height="${gy-top}" fill="#5b6b9a"/>`;
+  for(let yy=top+10;yy<gy-18;yy+=22){s+=`<rect x="${bx1+10}" y="${yy}" width="17" height="12" fill="#ffe8a3"/><rect x="${bx1+38}" y="${yy}" width="17" height="12" fill="#ffe8a3"/>`;}
+  s+=`<line x1="${sun.x}" y1="${sun.y}" x2="${tip}" y2="${gy}" stroke="#f5b400" stroke-width="2.5" stroke-dasharray="7 6"/>`;
+  s+=`<circle class="sunglow" cx="${sun.x}" cy="${sun.y}" r="28" fill="#ffcf33" opacity=".35"/><circle cx="${sun.x}" cy="${sun.y}" r="19" fill="#ffcf33"/>`;
+  if(revealed){const c=justRev?' draw':'';
+    s+=`<line class="side op${c}" x1="${bx2}" y1="${top}" x2="${bx2}" y2="${gy}"/><line class="side ad${c}" x1="${bx2}" y1="${gy}" x2="${tip}" y2="${gy}"/><line class="side hi${c}" x1="${bx2}" y1="${top}" x2="${tip}" y2="${gy}"/>`;
+    s+=`<path d="M${bx2+12} ${gy} L${bx2+12} ${gy-12} L${bx2} ${gy-12}" fill="none" stroke="#1c2541" stroke-width="2"/>`;
+    const T={x:tip,y:gy},ar=arc(T,{x:bx2,y:gy},{x:bx2,y:top},34);
+    s+=`<path class="arc glow" d="${ar.d}"/><text class="lbl angl" x="${tip+ar.bis.x*58}" y="${gy+ar.bis.y*58+6}" text-anchor="middle">${al}°</text>`;
+    s+=`<text class="lbl op unk" x="${bx2+10}" y="${(top+gy)/2}">h = ?</text>`;}
+  s+=`<text class="lbl" x="${(bx2+tip)/2}" y="${gy+32}" text-anchor="middle">sombra = ${sh.toFixed(1)} m</text>`;
+  $('#scene').innerHTML=s;justRev=false;}
+$('#al').oninput=drawScene;
+$('#reveal').onclick=()=>{revealed=true;justRev=true;drawScene();
+  $('#revmsg').innerHTML='¡Ahí está! Altura (<b class="c-op">opuesto</b>), sombra (<b class="c-ad">adyacente</b>) y rayo de Sol (<b class="c-hi">hipotenusa</b>) forman un <b>triángulo rectángulo</b>. Al final de la lección calcularás <b>h</b> cuando la sombra mide 20 m y el ángulo es 35°.';};
+const POLL=[['📏 Con una cinta métrica gigante','Funcionaría… si te dejaran subir a la azotea 😅. Hoy veremos otra forma.'],['🚁 Con un dron','¡Buena idea tecnológica! Pero hay una forma más barata: las matemáticas.'],['☀️ Con su sombra y el ángulo del Sol','¡Exacto! Eso es trigonometría, y al final lo calcularás tú.']];
+$('#poll').innerHTML=POLL.map((p,i)=>`<button class="opt" data-i="${i}">${p[0]}</button>`).join('');
+$('#poll').onclick=e=>{const b=e.target.closest('.opt');if(!b)return;$$('#poll .opt').forEach(x=>x.classList.remove('ok','sel'));const i=+b.dataset.i;b.classList.add(i===2?'ok':'sel');$('#pollfb').className='fb'+(i===2?' ok':'');$('#pollfb').textContent=POLL[i][1];};
+
+/* ---------- Estación 2: nombrar lados ---------- */
+const S2={ref:'A',hl:[],quiz:null,streak:0};
+const geo2=fit(3.4,5);
+function draw2(){const o={...geo2,ref:S2.ref,vtx:true,clickable:true,hl:S2.hl};
+  if(S2.quiz)Object.assign(o,{mono:true,names:false,flash:S2.quiz.flash||{},hl:[]});
+  $('#fig2').innerHTML=triSVG(o);}
+function showDef(r){$$('.def').forEach(d=>d.classList.toggle('on',d.dataset.role===r));}
+$('#ref2').onclick=e=>{const b=e.target.closest('button');if(!b||S2.quiz)return;S2.ref=b.dataset.r;$$('#ref2 button').forEach(x=>x.classList.toggle('on',x===b));
+  S2.hl=['op','ad'];draw2();$('#swapmsg').innerHTML='👀 ¡Mira! El <span class="c-op">opuesto</span> y el <span class="c-ad">adyacente</span> cambiaron de lugar. La <span class="c-hi">hipotenusa</span> siempre es la misma.';
+  clearTimeout(S2.t);S2.t=setTimeout(()=>{S2.hl=[];draw2();},2200);};
+$$('.def').forEach(d=>{d.onmouseenter=()=>{if(S2.quiz)return;S2.hl=[d.dataset.role];draw2();showDef(d.dataset.role);};
+  d.onmouseleave=()=>{if(S2.quiz)return;S2.hl=[];draw2();showDef(null);};
+  d.onclick=()=>{if(S2.quiz)return;S2.hl=[d.dataset.role];draw2();showDef(d.dataset.role);};});
+$('#fig2').addEventListener('click',e=>{const h=e.target.closest('.hit');if(!h)return;const r=h.dataset.role;
+  if(S2.quiz)answer2(r);else{S2.hl=[r];draw2();showDef(r);}});
+const ASK={op:'el <b class="c-acc">cateto OPUESTO</b> a θ',ad:'el <b class="c-acc">cateto ADYACENTE</b> a θ',hi:'la <b class="c-acc">HIPOTENUSA</b>'};
+function newQ(){S2.ref=Math.random()<.5?'A':'B';$$('#ref2 button').forEach(x=>x.classList.toggle('on',x.dataset.r===S2.ref));
+  const ask=['op','ad','hi'][rand(0,2)];S2.quiz={ask,flash:{},lock:false};
+  $('#q2prompt').innerHTML=`θ está en el vértice <b>${S2.ref}</b>. Toca ${ASK[ask]}.`;draw2();}
+function answer2(r){const q=S2.quiz;if(q.lock)return;q.lock=true;const fb=$('#q2fb');
+  if(r===q.ask){S2.streak++;q.flash={[r]:'okf'};fb.className='fb ok';fb.textContent=`¡Correcto! Racha: ${S2.streak} 🔥`;
+    if(S2.streak===3)badge($('#badge2'),'🕵️ Insignia: Detective de lados');draw2();setTimeout(newQ,1000);}
+  else{S2.streak=0;q.flash={[r]:'badf',[q.ask]:'okf'};fb.className='fb bad';fb.innerHTML=`Ese es ${r==='hi'?'la hipotenusa':'el '+SHORT[r].toLowerCase()}. El correcto brilla en verde. Racha: 0`;draw2();$('#fig2').classList.add('shake');setTimeout(()=>$('#fig2').classList.remove('shake'),400);setTimeout(newQ,1900);}}
+$('#q2btn').onclick=()=>{if(S2.quiz){S2.quiz=null;$('#q2btn').textContent='▶ Iniciar práctica';$('#q2prompt').innerHTML='Práctica en pausa. Puedes volver a intentarlo cuando quieras.';$('#q2fb').textContent='';draw2();}
+  else{S2.streak=0;$('#q2btn').textContent='⏸ Terminar práctica';$('#q2fb').textContent='';newQ();}};
+
+/* ---------- Estación 3: SOH-CAH-TOA ---------- */
+const S3={th:35,k:1,sel:null,anim:false};const A3={x:45,y:290};
+function draw3(){const h=230*S3.k,t=S3.th*DEG,aw=h*Math.cos(t),oh=h*Math.sin(t),B={x:A3.x+aw,y:A3.y-oh};
+  const hl=S3.sel?{sin:['op','hi'],cos:['ad','hi'],tan:['op','ad']}[S3.sel]:[];
+  const guide=`<path d="M${A3.x+h} ${A3.y} A${h} ${h} 0 0 0 ${A3.x} ${A3.y-h}" fill="none" stroke="#c9cfe0" stroke-dasharray="5 6" stroke-width="2"/>`;
+  const handle=`<circle class="ring" cx="${B.x}" cy="${B.y}" r="16"/><circle class="handle" cx="${B.x}" cy="${B.y}" r="13"/>`;
+  const H=10*S3.k,o=H*Math.sin(t),a=H*Math.cos(t);
+  $('#fig3').innerHTML=triSVG({x0:A3.x,yb:A3.y,aw,oh,ref:'A',hl,pre:guide,extra:handle,ang:S3.th+'°',labels:{op:f2(o),ad:f2(a),hi:f2(H)}});
+  const set=(id,v)=>{$('#'+id).textContent=v;};
+  set('n-sin',f2(o));set('d-sin',f2(H));set('v-sin',f4(Math.sin(t)));
+  set('n-cos',f2(a));set('d-cos',f2(H));set('v-cos',f4(Math.cos(t)));
+  set('n-tan',f2(o));set('d-tan',f2(a));set('v-tan',f4(Math.tan(t)));
+  $('#chk3').textContent=`sin(${S3.th}) = ${f4(Math.sin(t))}`;
+  $('#th3v').textContent=S3.th+'°';}
+const fig3=$('#fig3');let drag3=false;
+function move3(p){let a=Math.atan2(A3.y-p.y,p.x-A3.x)/DEG;S3.th=Math.round(Math.max(5,Math.min(85,a)));$('#th3').value=S3.th;draw3();}
+fig3.addEventListener('pointerdown',e=>{const p=svgPt(fig3,e),h=230*S3.k,t=S3.th*DEG,B={x:A3.x+h*Math.cos(t),y:A3.y-h*Math.sin(t)};
+  if(Math.hypot(p.x-B.x,p.y-B.y)<45){drag3=true;fig3.setPointerCapture(e.pointerId);move3(p);}});
+fig3.addEventListener('pointermove',e=>{if(drag3)move3(svgPt(fig3,e));});
+fig3.addEventListener('pointerup',()=>drag3=false);fig3.addEventListener('pointercancel',()=>drag3=false);
+$('#th3').oninput=e=>{S3.th=+e.target.value;draw3();};
+$('#k3').oninput=e=>{S3.k=e.target.value/100;draw3();};
+$$('.sc').forEach(c=>c.onclick=()=>{S3.sel=S3.sel===c.dataset.f?null:c.dataset.f;$$('.sc').forEach(x=>x.classList.toggle('on',x.dataset.f===S3.sel));draw3();});
+$('#anim3').onclick=()=>{if(S3.anim)return;S3.anim=true;const msg=$('#anim3msg');msg.className='fb';msg.textContent='Observa las razones de la derecha…';
+  $$('.val').forEach(v=>v.classList.add('steady'));const t0=performance.now(),dur=isCalm()?1200:3400;
+  const step=now=>{const p=Math.min(1,(now-t0)/dur);S3.k=.9-.3*Math.sin(p*2*Math.PI);$('#k3').value=Math.round(S3.k*100);draw3();
+    if(p<1)requestAnimationFrame(step);else{S3.anim=false;$$('.val').forEach(v=>v.classList.remove('steady'));msg.className='fb ok';msg.textContent='¿Lo viste? Los lados cambiaron, pero seno, coseno y tangente se quedaron igual: dependen solo del ángulo.';}};
+  requestAnimationFrame(step);};
+function mcq(el,items){el.innerHTML=items.map((it,i)=>`<div class="mcq" data-i="${i}"><p>${i+1}. ${it.q}</p><div>${it.o.map((x,j)=>`<button class="opt" data-j="${j}">${x}</button>`).join('')}</div><div class="fb"></div></div>`).join('');
+  el.addEventListener('click',e=>{const b=e.target.closest('.opt');if(!b)return;const box=b.closest('.mcq');if(box.dataset.done)return;const it=items[+box.dataset.i],j=+b.dataset.j,fb=box.querySelector('.fb');
+    if(j===it.a){b.classList.add('ok');fb.className='fb ok';fb.innerHTML='✔ '+it.ok;box.dataset.done=1;}
+    else{b.classList.add('bad','shake');fb.className='fb bad';fb.innerHTML='✘ '+it.no;setTimeout(()=>b.classList.remove('shake'),400);}});}
+mcq($('#mcq3'),[
+ {q:'Conoces el opuesto y la hipotenusa. ¿Qué razón los relaciona?',o:['Seno','Coseno','Tangente'],a:0,ok:'SOH: seno = opuesto ÷ hipotenusa.',no:'Busca la sílaba que tenga O y H.'},
+ {q:'Adyacente ÷ hipotenusa es…',o:['Seno','Coseno','Tangente'],a:1,ok:'CAH: coseno = adyacente ÷ hipotenusa.',no:'Busca la sílaba que tenga A y H.'},
+ {q:'Lleva el triángulo a 45°. ¿Cuánto vale tan 45°?',o:['0.5','1','1.4142'],a:1,ok:'A 45° el opuesto y el adyacente miden lo mismo, así que su división da 1.',no:'Mueve el triángulo a 45° y lee la tarjeta TOA.'},
+ {q:'Si agrandas el triángulo sin cambiar el ángulo, el seno…',o:['Aumenta','Disminuye','No cambia'],a:2,ok:'Correcto: las razones solo dependen del ángulo.',no:'Prueba el botón «Agrandar sin cambiar el ángulo» y observa.'}]);
+
+/* ---------- Estación 4: ángulos ---------- */
+function runMachine(id){const m=$(id),b1=m.querySelector('.t1 i'),b2=m.querySelector('.t2 i'),g=m.querySelector('.gear'),out=m.querySelector('.out');
+  [b1,b2].forEach(b=>{b.style.transition='none';b.style.left='0';});out.classList.remove('show');g.classList.remove('lit');void m.offsetWidth;
+  [b1,b2].forEach(b=>b.style.transition='');
+  requestAnimationFrame(()=>{b1.style.left='calc(100% - 18px)';setTimeout(()=>{g.classList.add('lit');setTimeout(()=>{b2.style.left='calc(100% - 18px)';setTimeout(()=>{out.classList.add('show');g.classList.remove('lit');},750);},450);},750);});}
+$('#mach').onclick=()=>{runMachine('#m1');setTimeout(()=>runMachine('#m2'),2500);};
+const S4={sel:['op','hi'],vals:{op:3,ad:4,hi:5}};
+const RULE={'hi,op':{f:'sin',inv:'sin⁻¹',mn:'SOH',num:'op',den:'hi'},'ad,hi':{f:'cos',inv:'cos⁻¹',mn:'CAH',num:'ad',den:'hi'},'ad,op':{f:'tan',inv:'tan⁻¹',mn:'TOA',num:'op',den:'ad'}};
+const rule4=()=>RULE[S4.sel.slice().sort().join(',')];
+function shape4(){const v=S4.vals,R=rule4();let o=3,a=4;
+  if(R.f==='sin'&&v.op>0&&v.hi>v.op){o=v.op;a=Math.sqrt(v.hi*v.hi-v.op*v.op);}
+  else if(R.f==='cos'&&v.ad>0&&v.hi>v.ad){a=v.ad;o=Math.sqrt(v.hi*v.hi-v.ad*v.ad);}
+  else if(R.f==='tan'&&v.op>0&&v.ad>0){o=v.op;a=v.ad;}
+  const labels={op:'',ad:'',hi:''};S4.sel.forEach(r=>labels[r]=String(v[r]));
+  $('#fig4').innerHTML=triSVG({...fit(o,a),ref:'A',hl:S4.sel,labels,ang:'θ = ?',angGlow:true});}
+function render4(){const R=rule4();
+  $$('#chips4 .chip').forEach(c=>c.classList.toggle('on',S4.sel.includes(c.dataset.c)));
+  ['sin','cos','tan'].forEach(f=>$('#dt-'+f).classList.toggle('on',f===R.f));
+  $('#inp4').innerHTML=[R.num,R.den].map(r=>`<label><b class="c-${r}">${SHORT[r]}</b><br><input class="num" data-v="${r}" inputmode="decimal" value="${S4.vals[r]}"></label>`).join('');
+  $('#out4').innerHTML='';shape4();}
+$('#chips4').onclick=e=>{const c=e.target.closest('.chip');if(!c||S4.sel.includes(c.dataset.c))return;S4.sel.shift();S4.sel.push(c.dataset.c);render4();};
+$('#inp4').addEventListener('input',e=>{const r=e.target.dataset.v;if(!r)return;const v=parseFloat(e.target.value.replace(',','.'));if(!isNaN(v))S4.vals[r]=v;shape4();});
+$('#go4').onclick=()=>{const R=rule4(),n=S4.vals[R.num],d=S4.vals[R.den],out=$('#out4');
+  if(!(n>0&&d>0)){out.innerHTML='<div class="fb bad">Escribe medidas positivas, por ejemplo 3 y 5.</div>';return;}
+  if(R.den==='hi'&&n>=d){out.innerHTML='<div class="fb bad">El cateto no puede medir lo mismo o más que la hipotenusa: la hipotenusa siempre es el lado más largo.</div>';return;}
+  const r=n/d,th=(R.f==='sin'?Math.asin(r):R.f==='cos'?Math.acos(r):Math.atan(r))/DEG;
+  out.innerHTML=`<div class="steps-out reveal"><div>① Conoces <b class="c-${R.num}">${SHORT[R.num]}</b> y <b class="c-${R.den}">${SHORT[R.den]}</b> → <b>${R.mn}</b></div><div>② Razón: ${n} ÷ ${d} = <b>${f4(r)}</b></div><div>③ θ = ${R.inv}(${f4(r)}) = <b class="c-ang" style="font-size:1.2rem">${f2(th)}°</b></div><div>④ Bonus: el otro ángulo agudo mide 90° − ${f2(th)}° = ${f2(90-th)}°</div><button class="btn sec" data-load="${R.inv}(${n}÷${d})">🧮 Hazlo en la calculadora</button></div>`;};
+
+/* ---------- Estación 5: problemas guiados ---------- */
+const GUIDED=[
+ {icon:'🏢',title:'La altura del edificio',text:'Un edificio proyecta una sombra de 20 m. El ángulo de elevación del Sol, medido desde la punta de la sombra, es de 35°. ¿Qué altura tiene el edificio?',
+  tri:{o:14,a:20,labels:{op:'h = ?',ad:'20 m',hi:''},ang:'35°',unknown:'op'},
+  steps:[{t:'Ubica el ángulo que conoces: <b class="c-ang">35°</b>, en la punta de la sombra.',hl:[],angGlow:true},
+   {t:'Nombra los lados desde ese ángulo: la sombra (20 m) toca al ángulo → <b class="c-ad">adyacente</b>. La altura h está enfrente → <b class="c-op">opuesto</b>.',hl:['op','ad']},
+   {t:'¿Qué razón une al opuesto con el adyacente?',hl:['op','ad'],choose:{o:['SOH · seno','CAH · coseno','TOA · tangente'],a:2,why:'TOA: tangente = opuesto ÷ adyacente.',no:'Esa razón usa la hipotenusa, y aquí no la conocemos ni la buscamos.'}},
+   {t:'Plantea y despeja: tan(35°) = h ÷ 20 → <b>h = 20 · tan(35°)</b>',hl:['op','ad']},
+   {t:'Calcula con la calculadora en modo DEG.',hl:['op'],calc:{expr:'20×tan(35)',ans:20*Math.tan(35*DEG),unit:'m'}}],
+  done:'¡Listo! El edificio mide ≈ 14.00 m. Lo medimos sin subir un solo escalón.'},
+ {icon:'🪜',title:'El ángulo de la escalera',text:'Una escalera de 5 m está recargada en una pared. Su base queda a 1.5 m de la pared. ¿Qué ángulo forma la escalera con el piso?',
+  tri:{o:Math.sqrt(25-2.25),a:1.5,labels:{hi:'5 m',ad:'1.5 m',op:''},ang:'θ = ?'},
+  steps:[{t:'El ángulo que buscamos (<b class="c-ang">θ</b>) está en el piso, entre la escalera y el suelo.',hl:[],angGlow:true},
+   {t:'La escalera es el lado más largo → <b class="c-hi">hipotenusa</b> (5 m). La distancia a la pared toca a θ → <b class="c-ad">adyacente</b> (1.5 m).',hl:['hi','ad']},
+   {t:'¿Qué razón une al adyacente con la hipotenusa?',hl:['hi','ad'],choose:{o:['SOH · seno','CAH · coseno','TOA · tangente'],a:1,why:'CAH: coseno = adyacente ÷ hipotenusa.',no:'Busca la sílaba que tenga A y H.'}},
+   {t:'Plantea: cos θ = 1.5 ÷ 5 = 0.3. Como buscamos el ángulo, usamos la inversa: <b>θ = cos⁻¹(0.3)</b>',hl:['hi','ad']},
+   {t:'Calcula con la calculadora en modo DEG.',hl:[],angGlow:true,calc:{expr:'cos⁻¹(1.5÷5)',ans:Math.acos(.3)/DEG,unit:'°',ang:true}}],
+  done:'¡Bien! La escalera forma ≈ 72.54° con el piso.'},
+ {icon:'🪁',title:'La altura del papalote',text:'Elena eleva un papalote con 30 m de hilo totalmente estirado. El hilo forma un ángulo de 50° con el suelo. ¿A qué altura está el papalote? (Considera que el hilo parte del suelo.)',
+  tri:{o:30*Math.sin(50*DEG),a:30*Math.cos(50*DEG),labels:{hi:'30 m',op:'h = ?',ad:''},ang:'50°',unknown:'op'},
+  steps:[{t:'Ubica el ángulo que conoces: <b class="c-ang">50°</b>, entre el hilo y el suelo.',hl:[],angGlow:true},
+   {t:'El hilo es el lado más largo → <b class="c-hi">hipotenusa</b> (30 m). La altura h está enfrente del ángulo → <b class="c-op">opuesto</b>.',hl:['hi','op']},
+   {t:'¿Qué razón une al opuesto con la hipotenusa?',hl:['hi','op'],choose:{o:['SOH · seno','CAH · coseno','TOA · tangente'],a:0,why:'SOH: seno = opuesto ÷ hipotenusa.',no:'Busca la sílaba que tenga O y H.'}},
+   {t:'Plantea y despeja: sin(50°) = h ÷ 30 → <b>h = 30 · sin(50°)</b>',hl:['hi','op']},
+   {t:'Calcula con la calculadora en modo DEG.',hl:['op'],calc:{expr:'30×sin(50)',ans:30*Math.sin(50*DEG),unit:'m'}}],
+  done:'¡Excelente! El papalote está a ≈ 22.98 m de altura.'}];
+const G={i:0,step:0,gate:false,tries:0,solved:false};
+function renderGuided(){const P=GUIDED[G.i],st=P.steps[G.step],last=G.step===P.steps.length-1;
+  let h=`<div class="seg" style="margin-bottom:10px">${GUIDED.map((q,j)=>`<button data-gp="${j}" class="${j===G.i?'on':''}">${q.icon} Problema ${j+1}</button>`).join('')}</div>`;
+  h+=`<h3>${P.icon} ${P.title}</h3><p>${P.text}</p><div class="grid2"><div><svg class="fig" id="gfig" viewBox="0 0 400 300"></svg></div><div>`;
+  h+=`<div class="stepper">${P.steps.map((_,j)=>`<i class="${j<G.step?'on':j===G.step?'cur':''}"></i>`).join('')}</div>`;
+  P.steps.slice(0,G.step+1).forEach((s,j)=>{const now=j===G.step;
+    h+=`<div class="gstep ${now?'cur':'past'}"><b>Paso ${j+1}.</b> ${s.t}`;
+    if(s.choose){if(now&&!G.gate)h+=`<div style="margin-top:6px">${s.choose.o.map((x,k)=>`<button class="opt" data-ch="${k}">${x}</button>`).join('')}</div>`;else h+=` <span class="c-ok"><b>✔ ${s.choose.why}</b></span>`;}
+    if(s.calc&&now){h+=`<p class="small" style="margin:6px 0">Escribe tu resultado con 2 decimales, sin unidades. Ejemplo: <code>12.35</code></p><div class="row"><input class="num" id="gans" inputmode="decimal" placeholder="Resultado"><span>${s.calc.unit}</span><button class="btn" id="gcheck">Comprobar</button><button class="btn sec" data-load="${s.calc.expr}">🧮 Cargar en la calculadora</button></div>`;}
+    h+='</div>';});
+  h+=`<div class="fb" id="gfb"></div><div id="gdone"></div>`;
+  if(!last)h+=`<button class="btn" id="gnext" ${st.choose&&!G.gate?'disabled':''}>Siguiente paso ▸</button>`;
+  h+='</div></div>';$('#guided').innerHTML=h;drawG();}
+function drawG(){const P=GUIDED[G.i],st=P.steps[G.step];$('#gfig').innerHTML=triSVG({...fit(P.tri.o,P.tri.a),ref:'A',labels:P.tri.labels,ang:P.tri.ang,unknown:P.tri.unknown,hl:st.hl,angGlow:st.angGlow});}
+function finishG(ok,P,c){const fb=$('#gfb');
+  fb.className='fb '+(ok?'ok':'bad');fb.innerHTML=ok?'¡Correcto! 🎉':`El resultado es ≈ ${f2(c.ans)}${c.unit==='°'?'°':' '+c.unit}. Compáralo con el tuyo y revisa en qué paso cambió.`;
+  const nxt=G.i<GUIDED.length-1?`<button class="btn" id="gnextp">Siguiente problema ▸</button>`:`<button class="btn" id="gtochal">🏆 Ir al reto de práctica</button>`;
+  $('#gdone').innerHTML=`<div class="done">✅ ${P.done}</div><div class="row" style="margin-top:10px">${nxt}</div>`;
+  $('#gcheck').disabled=true;if(ok){confetti(30);if(!ST.gs.includes(G.i)){ST.gs.push(G.i);save();}}}
+$('#guided').addEventListener('click',e=>{const t=e.target;const P=GUIDED[G.i],st=P.steps[G.step];
+  const gp=t.closest('[data-gp]');if(gp){Object.assign(G,{i:+gp.dataset.gp,step:0,gate:false,tries:0});renderGuided();return;}
+  const ch=t.closest('[data-ch]');if(ch&&st.choose&&!G.gate){const k=+ch.dataset.ch,fb=$('#gfb');
+    if(k===st.choose.a){ch.classList.add('ok');G.gate=true;fb.className='fb ok';fb.textContent='✔ '+st.choose.why;$('#gnext').disabled=false;}
+    else{ch.classList.add('bad','shake');fb.className='fb bad';fb.textContent='✘ '+st.choose.no;setTimeout(()=>ch.classList.remove('shake'),400);}return;}
+  if(t.id==='gnext'){G.step++;G.gate=false;G.tries=0;renderGuided();return;}
+  if(t.id==='gcheck'){const c=st.calc,v=parseFloat(($('#gans').value||'').replace(',','.')),fb=$('#gfb');
+    if(isNaN(v)){fb.className='fb bad';fb.textContent='Escribe un número, por ejemplo 12.35';return;}
+    const ok=c.ang?Math.abs(v-c.ans)<=.3:Math.abs(v-c.ans)<=Math.max(.05,.01*c.ans);G.tries++;
+    if(ok)finishG(true,P,c);else if(G.tries===1){fb.className='fb bad';fb.innerHTML='Casi. Revisa que la calculadora esté en <b>DEG</b> y que la expresión esté completa. Puedes cargarla con el botón 🧮.';{const el=$('#gans');el.classList.add('shake');setTimeout(()=>el.classList.remove('shake'),400);}}
+    else finishG(false,P,c);return;}
+  if(t.id==='gnextp'){Object.assign(G,{i:G.i+1,step:0,gate:false,tries:0});renderGuided();return;}
+  if(t.id==='gtochal')tab5('r');});
+
+/* ---------- Estación 5: reto final ---------- */
+function genProblem(type){const th=rand(20,70),t=th*DEG;let P;
+  const side=(txt,o,a,labels,unk,ans,mn,hl,why,sol,expr)=>({txt,o,a,labels,ang:th+'°',unk,ans,mn,hl,why,sol,expr,unit:'cm',isAng:false});
+  const angp=(txt,o,a,labels,ans,mn,hl,why,sol,expr)=>({txt,o,a,labels,ang:'θ = ?',unk:null,ans,mn,hl,why,sol,expr,unit:'°',isAng:true});
+  if(type===0){const H=rand(8,30);P=side(`La hipotenusa mide <b class="c-hi">${H} cm</b> y θ = ${th}°. Calcula el cateto opuesto <b>x</b>.`,H*Math.sin(t),H*Math.cos(t),{hi:H+' cm',op:'x',ad:''},'op',H*Math.sin(t),'SOH',['op','hi'],'conoces la hipotenusa y buscas el opuesto → SOH (seno)',`x = ${H} · sin(${th}°)`,`${H}×sin(${th})`);}
+  else if(type===1){const H=rand(8,30);P=side(`La hipotenusa mide <b class="c-hi">${H} cm</b> y θ = ${th}°. Calcula el cateto adyacente <b>x</b>.`,H*Math.sin(t),H*Math.cos(t),{hi:H+' cm',ad:'x',op:''},'ad',H*Math.cos(t),'CAH',['ad','hi'],'conoces la hipotenusa y buscas el adyacente → CAH (coseno)',`x = ${H} · cos(${th}°)`,`${H}×cos(${th})`);}
+  else if(type===2){const A=rand(5,25);P=side(`El cateto adyacente mide <b class="c-ad">${A} cm</b> y θ = ${th}°. Calcula el cateto opuesto <b>x</b>.`,A*Math.tan(t),A,{ad:A+' cm',op:'x',hi:''},'op',A*Math.tan(t),'TOA',['op','ad'],'conoces el adyacente y buscas el opuesto → TOA (tangente)',`x = ${A} · tan(${th}°)`,`${A}×tan(${th})`);}
+  else if(type===3){const O=rand(5,25);P=side(`El cateto opuesto mide <b class="c-op">${O} cm</b> y θ = ${th}°. Calcula la hipotenusa <b>x</b>.`,O,O/Math.tan(t),{op:O+' cm',hi:'x',ad:''},'hi',O/Math.sin(t),'SOH',['op','hi'],'conoces el opuesto y buscas la hipotenusa → SOH (seno); despeja x = op ÷ sin θ',`x = ${O} ÷ sin(${th}°)`,`${O}÷sin(${th})`);}
+  else if(type===4){const A=rand(5,25);P=side(`El cateto adyacente mide <b class="c-ad">${A} cm</b> y θ = ${th}°. Calcula la hipotenusa <b>x</b>.`,A*Math.tan(t),A,{ad:A+' cm',hi:'x',op:''},'hi',A/Math.cos(t),'CAH',['ad','hi'],'conoces el adyacente y buscas la hipotenusa → CAH (coseno); despeja x = ady ÷ cos θ',`x = ${A} ÷ cos(${th}°)`,`${A}÷cos(${th})`);}
+  else if(type===5){const H=rand(10,30),O=rand(3,H-3);P=angp(`El cateto opuesto mide <b class="c-op">${O} cm</b> y la hipotenusa <b class="c-hi">${H} cm</b>. Calcula el ángulo <b>θ</b>.`,O,Math.sqrt(H*H-O*O),{op:O+' cm',hi:H+' cm',ad:''},Math.asin(O/H)/DEG,'SOH',['op','hi'],'conoces opuesto e hipotenusa → usa sin⁻¹',`θ = sin⁻¹(${O} ÷ ${H})`,`sin⁻¹(${O}÷${H})`);}
+  else if(type===6){const H=rand(10,30),A=rand(3,H-3);P=angp(`El cateto adyacente mide <b class="c-ad">${A} cm</b> y la hipotenusa <b class="c-hi">${H} cm</b>. Calcula el ángulo <b>θ</b>.`,Math.sqrt(H*H-A*A),A,{ad:A+' cm',hi:H+' cm',op:''},Math.acos(A/H)/DEG,'CAH',['ad','hi'],'conoces adyacente e hipotenusa → usa cos⁻¹',`θ = cos⁻¹(${A} ÷ ${H})`,`cos⁻¹(${A}÷${H})`);}
+  else{const O=rand(3,25),A=rand(3,25);P=angp(`El cateto opuesto mide <b class="c-op">${O} cm</b> y el adyacente <b class="c-ad">${A} cm</b>. Calcula el ángulo <b>θ</b>.`,O,A,{op:O+' cm',ad:A+' cm',hi:''},Math.atan(O/A)/DEG,'TOA',['op','ad'],'conoces opuesto y adyacente → usa tan⁻¹',`θ = tan⁻¹(${O} ÷ ${A})`,`tan⁻¹(${O}÷${A})`);}
+  return P;}
+const R={list:[],i:0,score:0,tries:0,closed:false};
+function startChal(){const ts=[0,1,2,3,4,5,6,7].sort(()=>Math.random()-.5).slice(0,5);Object.assign(R,{list:ts.map(genProblem),i:0,score:0,tries:0,closed:false});renderChal();}
+function drawC(hl){const P=R.list[R.i];$('#cfig').innerHTML=triSVG({...fit(P.o,P.a),ref:'A',labels:P.labels,ang:P.ang,unknown:P.unk,angGlow:P.isAng,hl:hl||[]});}
+function renderChal(){const el=$('#chal'),n=R.list.length,max=n*2;
+  if(R.i>=n){ST.rd=true;ST.rb=Math.max(ST.rb,R.score);save();const pct=R.score/max,stars=pct>=.9?'⭐⭐⭐':pct>=.6?'⭐⭐':'⭐';
+    const msg=pct>=.9?'🏆 ¡Dominas el SOH-CAH-TOA!':pct>=.6?'¡Muy bien! Ya casi lo dominas.':'💪 Buen intento. Repasa las estaciones 3 y 4 y vuelve a intentarlo.';
+    el.innerHTML=`<div class="final"><div class="stars">${stars}</div><h3>${msg}</h3><p class="score">${R.score} de ${max} puntos</p><button class="btn" id="cnew">🔄 Nuevo reto</button></div>`;if(pct>=.6)confetti(80);return;}
+  const P=R.list[R.i];
+  el.innerHTML=`<div class="row" style="justify-content:space-between"><b>Problema ${R.i+1} de ${n}</b><span class="score">⭐ ${R.score} / ${max}</span></div>
+  <div class="stepper">${R.list.map((_,j)=>`<i class="${j<R.i?'on':j===R.i?'cur':''}"></i>`).join('')}</div>
+  <div class="grid2"><div><svg class="fig" id="cfig" viewBox="0 0 400 300"></svg></div><div>
+  <p style="font-size:1.08rem">${P.txt}</p>
+  <p class="small">Escribe tu respuesta con 2 decimales, sin unidades. Ejemplo: <code>12.35</code>. Vale 2 ⭐ al primer intento y 1 ⭐ al segundo.</p>
+  <div class="row"><input class="num" id="cans" inputmode="decimal" placeholder="${P.isAng?'θ':'x'}"><span>${P.unit}</span><button class="btn" id="ccheck">Comprobar</button><button class="btn sec" id="copen">🧮</button></div>
+  <div class="fb" id="cfb"></div><div id="csol"></div></div></div>`;
+  drawC();}
+function solC(P){$('#csol').innerHTML=`<div class="steps-out reveal"><div><b>${P.mn}</b>: ${P.why}.</div><div>${P.sol} = <b>${f2(P.ans)}${P.isAng?'°':' cm'}</b></div><button class="btn sec" data-load="${P.expr}">🧮 Verlo en la calculadora</button><button class="btn" id="cnext">${R.i<R.list.length-1?'Siguiente ▸':'Ver resultado 🏁'}</button></div>`;
+  $('#ccheck').disabled=true;R.closed=true;drawC(P.hl);}
+$('#chal').addEventListener('click',e=>{const t=e.target;
+  if(t.id==='cnew'){startChal();return;}
+  if(t.id==='copen'){openCalc(true);return;}
+  if(t.id==='cnext'){R.i++;R.tries=0;R.closed=false;renderChal();return;}
+  if(t.id==='ccheck'&&!R.closed){const P=R.list[R.i],v=parseFloat(($('#cans').value||'').replace(',','.')),fb=$('#cfb');
+    if(isNaN(v)){fb.className='fb bad';fb.textContent='Escribe un número, por ejemplo 12.35';return;}
+    const ok=P.isAng?Math.abs(v-P.ans)<=.3:Math.abs(v-P.ans)<=Math.max(.05,.01*Math.abs(P.ans));R.tries++;
+    if(ok){const pts=R.tries===1?2:1;R.score+=pts;fb.className='fb ok';fb.textContent=`¡Correcto! +${pts} ⭐`;solC(P);$('.score').textContent=`⭐ ${R.score} / ${R.list.length*2}`;}
+    else if(R.tries===1){fb.className='fb bad';fb.innerHTML=`Casi. Pista: ${P.why}.`;drawC(P.hl);{const el=$('#cans');el.classList.add('shake');setTimeout(()=>el.classList.remove('shake'),400);}}
+    else{fb.className='fb bad';fb.textContent='Aún no. Revisa la solución y sigue adelante.';solC(P);}}});
+let chalStarted=false;
+function tab5(k){$$('#tabs5 button').forEach(b=>b.classList.toggle('on',b.dataset.t===k));$('#guided').style.display=k==='g'?'':'none';$('#chal').style.display=k==='r'?'':'none';if(k==='r'&&!chalStarted){chalStarted=true;startChal();}}
+$('#tabs5').onclick=e=>{const b=e.target.closest('button');if(b)tab5(b.dataset.t);};
+document.addEventListener('keydown',e=>{if(e.key!=='Enter')return;if(e.target.id==='gans')$('#gcheck').click();else if(e.target.id==='cans')$('#ccheck').click();else if(e.target.dataset&&e.target.dataset.v)$('#go4').click();});
+
+/* ---------- Calculadora ---------- */
+const Calc={expr:'',ans:0,deg:true,just:false,hist:[]};
+const KEYS=[['sin','sin(','fn'],['cos','cos(','fn'],['tan','tan(','fn'],['(','(','op'],[')',')','op'],
+ ['sin⁻¹','sin⁻¹(','fn'],['cos⁻¹','cos⁻¹(','fn'],['tan⁻¹','tan⁻¹(','fn'],['√','√(','fn'],['x²','^2','op'],
+ ['7','7'],['8','8'],['9','9'],['÷','÷','op'],['AC','AC','clr'],
+ ['4','4'],['5','5'],['6','6'],['×','×','op'],['⌫','DEL','clr'],
+ ['1','1'],['2','2'],['3','3'],['−','-','op'],['^','^','op'],
+ ['0','0'],['.','.'],['π','π'],['+','+','op'],['Ans','Ans'],['=','=','eq']];
+const calcEl=$('#calc');
+calcEl.innerHTML=`<div class="chead"><b>🧮 Calculadora</b><div class="mode"><button data-m="deg" class="on">DEG</button><button data-m="rad">RAD</button></div><button class="xbtn" id="cclose" aria-label="Cerrar">✕</button></div>
+<div class="cdisp"><div class="cexpr" id="cexpr">&nbsp;</div><div class="cres" id="cres">0</div></div><div class="cerr" id="cerr"></div>
+<div class="ckeys">${KEYS.map(k=>`<button class="${k[2]||''}" data-k="${k[1]}">${k[0]}</button>`).join('')}</div><div class="chist" id="chist"></div>`;
+function tokenize(s){const out=[],names=['sin⁻¹','cos⁻¹','tan⁻¹','sin','cos','tan','√','π','Ans'];let i=0;
+  while(i<s.length){const ch=s[i];if(ch===' '){i++;continue;}
+    const m=s.slice(i).match(/^(\d+\.?\d*|\.\d+)/);if(m){out.push({t:'num',v:parseFloat(m[1])});i+=m[1].length;continue;}
+    const n=names.find(x=>s.startsWith(x,i));
+    if(n){if(n==='π')out.push({t:'num',v:Math.PI});else if(n==='Ans')out.push({t:'num',v:Calc.ans});else out.push({t:'fn',v:n});i+=n.length;continue;}
+    if('+-−×÷*/^()'.includes(ch)){let v=ch;if(v==='−')v='-';if(v==='*')v='×';if(v==='/')v='÷';out.push({t:'op',v});i++;continue;}
+    throw new Error('Símbolo no reconocido: '+ch);}
+  return out;}
+function applyFn(f,x){const k=Calc.deg?DEG:1,cl=v=>Math.abs(v)<1e-12?0:v;
+  switch(f){case 'sin':return cl(Math.sin(x*k));case 'cos':return cl(Math.cos(x*k));
+    case 'tan':if(Math.abs(Math.cos(x*k))<1e-12)throw new Error('La tangente no está definida en ese ángulo');return cl(Math.tan(x*k));
+    case 'sin⁻¹':if(x<-1||x>1)throw new Error('sin⁻¹ solo acepta valores entre −1 y 1. ¿Dividiste entre la hipotenusa?');return Math.asin(x)/k;
+    case 'cos⁻¹':if(x<-1||x>1)throw new Error('cos⁻¹ solo acepta valores entre −1 y 1. ¿Dividiste entre la hipotenusa?');return Math.acos(x)/k;
+    case 'tan⁻¹':return Math.atan(x)/k;
+    case '√':if(x<0)throw new Error('No hay raíz cuadrada real de un número negativo');return Math.sqrt(x);}
+  throw new Error('Función desconocida');}
+function parse(toks){let p=0;const peek=()=>toks[p],isOp=v=>peek()&&peek().t==='op'&&peek().v===v;
+  const starts=()=>{const t=peek();return t&&(t.t==='num'||t.t==='fn'||(t.t==='op'&&t.v==='('));};
+  function expr(){let v=term();while(isOp('+')||isOp('-')){const o=toks[p++].v,r=term();v=o==='+'?v+r:v-r;}return v;}
+  function term(){let v=unary();for(;;){if(isOp('×')||isOp('÷')){const o=toks[p++].v,r=unary();if(o==='÷'){if(r===0)throw new Error('No se puede dividir entre cero');v/=r;}else v*=r;}else if(starts())v*=unary();else break;}return v;}
+  function unary(){if(isOp('-')){p++;return -unary();}if(isOp('+')){p++;return unary();}return power();}
+  function power(){const b=primary();if(isOp('^')){p++;return Math.pow(b,unary());}return b;}
+  function primary(){const t=toks[p++];if(!t)throw new Error('La expresión está incompleta');
+    if(t.t==='num')return t.v;
+    if(t.t==='op'&&t.v==='('){const v=expr();if(isOp(')'))p++;return v;}
+    if(t.t==='fn'){let a;if(isOp('(')){p++;a=expr();if(isOp(')'))p++;}else a=power();return applyFn(t.v,a);}
+    throw new Error('Revisa la expresión');}
+  const v=expr();if(p<toks.length)throw new Error('Revisa los paréntesis');return v;}
+function closeParens(e){const n=(e.match(/\(/g)||[]).length-(e.match(/\)/g)||[]).length;return n>0?e+')'.repeat(n):e;}
+function evalStr(e){return parse(tokenize(closeParens(e)));}
+function fmtN(v){if(!isFinite(v))return 'Error';if(Math.abs(v)>=1e10||(Math.abs(v)<1e-6&&v!==0))return v.toExponential(6);return String(Number(v.toPrecision(10)));}
+function setErr(m,warn){const c=$('#cerr');c.className='cerr'+(warn?' warn':'');c.textContent=m;}
+function modeNote(){if(!Calc.deg)setErr('⚠ Modo RAD: los ángulos se interpretan en radianes. Para esta lección usa DEG.',true);else setErr('');}
+function renderCalc(){$('#cexpr').textContent=Calc.expr||'\u00a0';const r=$('#cres');
+  if(!Calc.just){r.classList.add('prev');try{r.textContent=Calc.expr?'≈ '+fmtN(evalStr(Calc.expr)):'0';}catch(_){r.textContent='';}}}
+function evaluate(){if(!Calc.expr)return;const e=closeParens(Calc.expr);
+  try{const v=parse(tokenize(e));if(!isFinite(v))throw new Error('Resultado no válido');
+    Calc.ans=v;Calc.expr=e;Calc.just=true;$('#cexpr').textContent=e+' =';const r=$('#cres');r.classList.remove('prev');r.textContent=fmtN(v);
+    Calc.hist.unshift(`${e} = ${fmtN(v)}`);Calc.hist=Calc.hist.slice(0,3);$('#chist').innerHTML=Calc.hist.map(x=>`<div>${x}</div>`).join('');modeNote();
+    $('.ckeys .eq').classList.remove('call');}
+  catch(x){setErr('⚠ '+x.message);$('#cres').classList.add('shake');setTimeout(()=>$('#cres').classList.remove('shake'),400);}}
+const MULTI=['sin⁻¹(','cos⁻¹(','tan⁻¹(','sin(','cos(','tan(','√(','Ans'];
+function press(k){
+  if(k==='AC'){Calc.expr='';Calc.just=false;modeNote();renderCalc();return;}
+  if(k==='DEL'){if(Calc.just){Calc.just=false;}const m=MULTI.find(x=>Calc.expr.endsWith(x));Calc.expr=m?Calc.expr.slice(0,-m.length):Calc.expr.slice(0,-1);renderCalc();return;}
+  if(k==='='){evaluate();return;}
+  if(Calc.just){Calc.expr=/^[+\-×÷^]/.test(k)?'Ans'+k:'';Calc.just=false;if(/^[+\-×÷^]/.test(k)){modeNote();renderCalc();return;}}
+  Calc.expr+=k;modeNote();renderCalc();}
+calcEl.querySelector('.ckeys').onclick=e=>{const b=e.target.closest('button');if(!b)return;b.classList.add('press');setTimeout(()=>b.classList.remove('press'),150);press(b.dataset.k);};
+calcEl.querySelector('.mode').onclick=e=>{const b=e.target.closest('button');if(!b)return;Calc.deg=b.dataset.m==='deg';$$('.mode button').forEach(x=>x.classList.toggle('on',x===b));Calc.just=false;modeNote();renderCalc();};
+function openCalc(on){calcEl.classList.toggle('hidden',!on);}
+$('#calcBtn').onclick=()=>openCalc(calcEl.classList.contains('hidden'));
+$('#cclose').onclick=()=>openCalc(false);
+function loadCalc(expr){openCalc(true);Calc.expr=expr;Calc.just=false;modeNote();renderCalc();const eq=$('.ckeys .eq');eq.classList.add('call');}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-load]');if(b)loadCalc(b.dataset.load);});
+document.addEventListener('keydown',e=>{if(calcEl.classList.contains('hidden'))return;const tg=e.target.tagName;if(tg==='INPUT'||tg==='TEXTAREA')return;
+  const map={'*':'×','/':'÷','x':'×','Enter':'=','=':'=','Backspace':'DEL','Delete':'AC',',':'.'};let k=map[e.key]||e.key;
+  if(e.key==='Escape'){openCalc(false);return;}
+  if(/^[0-9.+\-×÷^()=]$/.test(k)||k==='DEL'||k==='AC'){e.preventDefault();press(k);}});
+
+/* ---------- Sesión y registro ---------- */
+const KEY='trigMV_v1';
+const ST={name:'',mat:'',grp:'',t0:0,seen:[0],gs:[],rb:0,rd:false,quiz:null};
+function save(){try{localStorage.setItem(KEY,JSON.stringify(ST));}catch(_){}}
+try{const d=JSON.parse(localStorage.getItem(KEY)||'null');if(d&&d.name)Object.assign(ST,d);}catch(_){}
+ST.seen.forEach(i=>seen.add(i));
+function esc(v){return String(v).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+function updateWho(){const w=$('#who');if(!ST.name){w.hidden=true;return;}w.hidden=false;
+  w.innerHTML=`👤 ${esc(ST.name)} · ${esc(ST.grp)} <button id="logout" title="Cerrar sesión" aria-label="Cerrar sesión">✕</button>`;}
+function showReg(on){$('#reg').classList.toggle('hide',!on);document.body.style.overflow=on?'hidden':'';if(on)setTimeout(()=>$('#rname').focus(),60);}
+$('#regform').onsubmit=e=>{e.preventDefault();
+  const n=$('#rname').value.trim().replace(/\s+/g,' '),g=$('#rgrp').value.trim(),m=$('#rmat').value.trim(),fb=$('#regfb');
+  if(n.split(' ').length<2){fb.textContent='Escribe tu nombre y al menos un apellido.';return;}
+  if(!g){fb.textContent='Escribe tu grupo, por ejemplo 501.';return;}
+  fb.textContent='';
+  Object.assign(ST,{name:n,mat:m,grp:g,t0:Date.now(),seen:[0],gs:[],rb:0,rd:false,quiz:null});
+  seen.clear();seen.add(0);save();updateWho();showReg(false);renderQuiz();renderComp();go(0);};
+document.addEventListener('click',e=>{if(e.target.id==='logout'&&confirm('¿Cerrar sesión? Se borrará el avance guardado en este dispositivo.')){try{localStorage.removeItem(KEY);}catch(_){}location.reload();}});
+
+/* ---------- Quiz final ---------- */
+const QBANK={c:[
+ {q:'En un triángulo rectángulo, el lado que está enfrente del ángulo recto se llama…',o:['Hipotenusa','Cateto opuesto','Cateto adyacente'],e:'La hipotenusa siempre está frente al ángulo de 90° y es el lado más largo.'},
+ {q:'Conoces el cateto adyacente y la hipotenusa. ¿Qué función usas para obtener el ángulo θ?',o:['cos⁻¹','sin⁻¹','tan⁻¹'],e:'Adyacente e hipotenusa forman CAH, así que θ = cos⁻¹(ady ÷ hip).'},
+ {q:'La tangente de un ángulo es igual a…',o:['Opuesto ÷ adyacente','Adyacente ÷ opuesto','Opuesto ÷ hipotenusa'],e:'TOA: tangente = opuesto ÷ adyacente.'},
+ {q:'Si cambias el ángulo de referencia al otro ángulo agudo del triángulo, ¿qué ocurre con los lados?',o:['El opuesto y el adyacente intercambian sus nombres','La hipotenusa cambia de lugar','Ningún lado cambia de nombre'],e:'Opuesto y adyacente dependen del ángulo; la hipotenusa siempre es la misma.'},
+ {q:'La calculadora marca error en sin⁻¹(1.4). ¿Por qué?',o:['El seno nunca es mayor que 1','La calculadora está en modo DEG','Falta cerrar un paréntesis'],e:'El cateto siempre es menor que la hipotenusa, así que opuesto ÷ hipotenusa nunca pasa de 1.'},
+ {q:'El cateto opuesto y el adyacente miden 7 cm cada uno. ¿Cuánto mide θ?',o:['45°','30°','60°'],e:'tan θ = 7 ÷ 7 = 1, y tan⁻¹(1) = 45°.'}],
+k:[
+ {q:'La hipotenusa mide 12 cm y θ = 30°. ¿Cuánto mide el cateto opuesto?',o:['6.00 cm','10.39 cm','6.93 cm'],e:'SOH: opuesto = 12 · sin(30°) = 6.00 cm.'},
+ {q:'El cateto opuesto mide 5 cm y la hipotenusa 13 cm. ¿Cuánto mide θ?',o:['22.62°','67.38°','21.04°'],e:'SOH: θ = sin⁻¹(5 ÷ 13) ≈ 22.62°.'},
+ {q:'Una rampa forma 10° con el piso y alcanza 1.2 m de altura. ¿Cuánto mide la rampa?',o:['6.91 m','6.81 m','0.21 m'],e:'La altura es el opuesto y la rampa la hipotenusa: rampa = 1.2 ÷ sin(10°) ≈ 6.91 m.'},
+ {q:'Un árbol proyecta una sombra de 9 m y el ángulo de elevación del Sol es 40°. ¿Qué altura tiene el árbol?',o:['7.55 m','5.79 m','10.73 m'],e:'TOA: altura = 9 · tan(40°) ≈ 7.55 m.'}]};
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function newQuiz(){const pick=(a,n)=>shuffle(a.slice()).slice(0,n);
+  return{qs:shuffle([...pick(QBANK.c,3),...pick(QBANK.k,3)]).map(it=>({q:it.q,e:it.e,a:it.o[0],o:shuffle(it.o.slice())})),i:0,res:[],done:false};}
+function renderQuiz(){const el=$('#quiz'),Q=ST.quiz;
+  if(!Q){el.innerHTML=`<h3>📝 Quiz final</h3><p>Son <b>6 preguntas</b>, una a la vez. <b>Solo cuenta tu primer intento</b> y el quiz se contesta una sola vez.</p><p class="small">Puedes usar la calculadora 🧮 y una hoja para tus cálculos.</p><button class="btn" id="qstart">Comenzar quiz ▸</button>`;return;}
+  if(!Q.done&&Q.res.length>Q.i){Q.i=Q.res.length;if(Q.i>=Q.qs.length)Q.done=true;save();}
+  const dots=`<div class="qdots">${Q.qs.map((_,j)=>`<i class="${j<Q.res.length?(Q.res[j]?'ok':'bad'):j===Q.i&&!Q.done?'cur':''}"></i>`).join('')}</div>`;
+  if(Q.done){const ok=Q.res.filter(Boolean).length,n=Q.qs.length;
+    el.innerHTML=`<h3>📝 Quiz final</h3>${dots}<p class="score">${ok} de ${n} correctas</p><p>${ok===n?'¡Perfecto! Dominas el tema. 🏆':ok>=4?'¡Muy bien! Repasa las explicaciones de las que fallaste.':'Repasa las estaciones 3 y 4, y lleva tus dudas a la próxima clase.'}</p><p class="small">Ahora genera tu comprobante. 👉</p>`;return;}
+  const q=Q.qs[Q.i];
+  el.innerHTML=`<h3>📝 Pregunta ${Q.i+1} de ${Q.qs.length}</h3>${dots}<p class="qq">${q.q}</p><div class="qopts">${q.o.map((o,j)=>`<button class="opt" data-qo="${j}">${o}</button>`).join('')}</div><div id="qfb"></div>`;}
+$('#quiz').addEventListener('click',e=>{const t=e.target,Q=ST.quiz;
+  if(t.id==='qstart'){ST.quiz=newQuiz();save();renderQuiz();return;}
+  const b=t.closest('[data-qo]');
+  if(b&&Q&&!Q.done&&Q.res.length===Q.i){const q=Q.qs[Q.i],ok=q.o[+b.dataset.qo]===q.a;Q.res.push(ok);save();
+    $$('#quiz .opt').forEach(x=>{if(q.o[+x.dataset.qo]===q.a)x.classList.add('ok');x.disabled=true;});if(!ok)b.classList.add('bad');
+    const d=$$('#quiz .qdots i')[Q.i];if(d)d.className=ok?'ok':'bad';
+    $('#qfb').innerHTML=`<div class="fb ${ok?'ok':'bad'}">${ok?'✔ ¡Correcto!':'✘ La respuesta correcta es: '+q.a}</div><p class="small">${q.e}</p><button class="btn" id="qnext">${Q.i+1<Q.qs.length?'Siguiente ▸':'Ver resultado'}</button>`;return;}
+  if(t.id==='qnext'&&Q){Q.i++;if(Q.i>=Q.qs.length){Q.done=true;if(Q.res.filter(Boolean).length>=4)confetti(60);}save();renderQuiz();renderComp();}});
+
+/* ---------- Código de verificación ---------- */
+const SALT='MATV·TRIG·2026·SCT';
+function cyrb53(str,seed){seed=seed||0;let h1=0xdeadbeef^seed,h2=0x41c6ce57^seed;
+  for(let i=0,ch;i<str.length;i++){ch=str.charCodeAt(i);h1=Math.imul(h1^ch,2654435761);h2=Math.imul(h2^ch,1597334677);}
+  h1=Math.imul(h1^(h1>>>16),2246822507);h1^=Math.imul(h2^(h2>>>13),3266489909);
+  h2=Math.imul(h2^(h2>>>16),2246822507);h2^=Math.imul(h1^(h1>>>13),3266489909);
+  return 4294967296*(2097151&h2)+(h1>>>0);}
+const norm=v=>String(v||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toUpperCase().replace(/\s+/g,' ').trim();
+function code8(str){const c=cyrb53(str+'|'+SALT,7).toString(36).toUpperCase().padStart(11,'0').slice(-8);return c.slice(0,4)+'-'+c.slice(4);}
+const sumStr=v=>['v1',norm(v.n),norm(v.m),norm(v.g),String(v.t).trim(),+v.min,+v.e,+v.u,+v.r,+v.a,+v.q].join('|');
+const b64e=str=>btoa(unescape(encodeURIComponent(str))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+
+/* ---------- Comprobante ---------- */
+const pad=n=>String(n).padStart(2,'0');
+const stamp=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+function prog(){const Q=ST.quiz,qd=!!(Q&&Q.done);
+  return{est:[0,1,2,3,4].filter(i=>seen.has(i)).length,gu:ST.gs.length,rd:ST.rd,rb:ST.rb,qd,qa:qd?Q.res.filter(Boolean).length:0,qn:Q?Q.qs.length:6};}
+function renderComp(){const p=prog(),ok=p.est===5&&p.qd;
+  $('#comp').innerHTML=`<h3>🎓 Mi comprobante</h3><p>${ok?'¡Cumpliste los requisitos! Genera tu comprobante y envíalo a tu profesor.':'Para generarlo necesitas recorrer las 5 estaciones y terminar el quiz.'}</p>
+  <ul class="req"><li><span>Estaciones recorridas <span class="small">(requisito)</span></span><span class="${p.est===5?'y':'n'}">${p.est===5?'✓ ':''}${p.est}/5</span></li>
+  <li><span>Quiz final <span class="small">(requisito)</span></span><span class="${p.qd?'y':'n'}">${p.qd?`✓ ${p.qa}/${p.qn}`:'Pendiente'}</span></li>
+  <li><span>Problemas guiados resueltos</span><span>${p.gu}/3</span></li>
+  <li><span>Reto de práctica (mejor puntaje)</span><span>${p.rd?p.rb+'/10':'No realizado'}</span></li></ul>
+  <button class="btn" id="cgen" ${ok?'':'disabled'}>Generar comprobante</button><div id="cout"></div>
+  <p class="small">El comprobante lleva un código de verificación y un QR. Si se modifica la imagen, el código deja de coincidir.</p>`;}
+$('#comp').addEventListener('click',e=>{if(e.target.id!=='cgen')return;const p=prog();if(!(p.est===5&&p.qd))return;
+  const sm={n:ST.name,m:ST.mat||'—',g:ST.grp,t:stamp(new Date()),min:Math.max(1,Math.round((Date.now()-ST.t0)/60000)),e:p.est,u:p.gu,r:p.rd?p.rb:-1,a:p.qa,q:p.qn};
+  sm.c=code8(sumStr(sm));
+  const url=new URL('verificar.html',location.href).href.split('#')[0]+'#d='+b64e(JSON.stringify(sm));
+  const cv=drawComp(sm,url),du=cv.toDataURL('image/png');
+  const fn='comprobante_trig_'+norm(ST.name).replace(/[^A-Z0-9]+/g,'_').slice(0,40)+'_'+norm(ST.grp).replace(/[^A-Z0-9]+/g,'')+'.png';
+  $('#cout').innerHTML=`<img class="comp-img" alt="Comprobante de la lección" src="${du}"><div class="row" style="justify-content:center"><button class="btn" id="cshare" hidden>📤 Compartir</button><a class="btn sec" download="${fn}" href="${du}">⬇ Descargar imagen</a></div><p class="small" style="text-align:center">En el celular también puedes mantener presionada la imagen para guardarla.</p>`;
+  cv.toBlob(bl=>{if(!bl)return;const f=new File([bl],fn,{type:'image/png'});
+    if(navigator.canShare&&navigator.canShare({files:[f]})){const b=$('#cshare');b.hidden=false;b.onclick=()=>navigator.share({files:[f],title:'Comprobante · Trigonometría'}).catch(()=>{});}},'image/png');
+  confetti(60);$('#cout').scrollIntoView({behavior:isCalm()?'auto':'smooth',block:'start'});});
+function drawComp(sm,url){const W=1080,H=1560,c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d');
+  const F='system-ui,-apple-system,"Segoe UI",Roboto,sans-serif',ACC='#6d4aff',INK='#1c2541',MUT='#5d6886',LINE='#e1e6f0';
+  x.fillStyle='#fff';x.fillRect(0,0,W,H);
+  const gr=x.createLinearGradient(0,0,W,0);gr.addColorStop(0,'#1c2541');gr.addColorStop(1,'#3a2f7a');x.fillStyle=gr;x.fillRect(0,0,W,210);
+  x.fillStyle='#f59f00';x.fillRect(0,210,W,8);
+  x.fillStyle='#fff';x.font=`600 27px ${F}`;x.fillText('MATEMÁTICAS V · PREPARATORIA XOCHICALCO',70,78);
+  x.font=`800 58px ${F}`;x.fillText('Comprobante de lección',70,150);
+  x.font=`500 27px ${F}`;x.fillStyle='#d9d3ff';x.fillText('Trigonometría del triángulo rectángulo',70,190);
+  const fit=(t,mw,sz,wt)=>{let s=sz;x.font=`${wt} ${s}px ${F}`;while(x.measureText(t).width>mw&&s>24){s-=2;x.font=`${wt} ${s}px ${F}`;}};
+  let y=300;
+  x.fillStyle=MUT;x.font=`600 25px ${F}`;x.fillText('ESTUDIANTE',70,y);
+  x.fillStyle=INK;fit(sm.n,W-140,50,700);x.fillText(sm.n,70,y+58);
+  y+=135;
+  [['GRUPO',sm.g],['MATRÍCULA',sm.m],['TIEMPO EN LA LECCIÓN',sm.min+' min']].forEach((it,i)=>{const xx=70+i*330;
+    x.fillStyle=MUT;x.font=`600 23px ${F}`;x.fillText(it[0],xx,y);x.fillStyle=INK;fit(String(it[1]),300,34,700);x.fillText(String(it[1]),xx,y+46);});
+  y+=105;x.fillStyle=MUT;x.font=`600 23px ${F}`;x.fillText('FECHA Y HORA',70,y);x.fillStyle=INK;x.font=`700 34px ${F}`;x.fillText(sm.t,70,y+46);
+  y+=110;x.fillStyle='#f0f2f8';x.fillRect(50,y-40,W-100,60);x.fillStyle=MUT;x.font=`700 23px ${F}`;x.fillText('ACTIVIDAD',70,y);x.textAlign='right';x.fillText('RESULTADO',W-70,y);x.textAlign='left';
+  y+=30;
+  [['Estaciones recorridas',sm.e+'/5'],['Problemas guiados resueltos',sm.u+'/3'],['Reto de práctica (mejor puntaje)',sm.r<0?'No realizado':sm.r+'/10'],['Quiz final (primer intento)',sm.a+'/'+sm.q]].forEach(r=>{
+    y+=62;x.fillStyle=INK;x.font=`500 30px ${F}`;x.fillText(r[0],70,y);x.textAlign='right';x.font=`700 30px ${F}`;x.fillText(r[1],W-70,y);x.textAlign='left';
+    x.strokeStyle=LINE;x.lineWidth=2;x.beginPath();x.moveTo(50,y+22);x.lineTo(W-50,y+22);x.stroke();});
+  y+=80;const pc=Math.round(100*sm.a/sm.q);
+  x.fillStyle='#f0ecff';rr(x,50,y-50,W-100,96,20);x.fill();
+  x.fillStyle=INK;x.font=`700 30px ${F}`;x.fillText('Calificación del quiz',80,y+10);x.textAlign='right';x.fillStyle=ACC;x.font=`800 54px ${F}`;x.fillText(pc+'%',W-80,y+18);x.textAlign='left';
+  y+=90;const bY=y,bH=360;
+  x.strokeStyle=LINE;x.lineWidth=3;rr(x,50,bY,W-100,bH,24);x.stroke();
+  x.fillStyle=MUT;x.font=`600 25px ${F}`;x.fillText('CÓDIGO DE VERIFICACIÓN',90,bY+70);
+  x.fillStyle=INK;x.font=`800 80px ui-monospace,"SF Mono",Menlo,Consolas,monospace`;x.fillText(sm.c,90,bY+168);
+  x.fillStyle=MUT;x.font=`400 24px ${F}`;wrapT(x,'Tu profesor escanea el código QR para comprobar que los datos no fueron modificados.',90,bY+228,540,34);
+  drawQR(x,url,W-90-290,bY+35,290);
+  x.fillStyle=MUT;x.font=`400 22px ${F}`;wrapT(x,'El quiz cuenta solo el primer intento. El reto de práctica registra el mejor puntaje de los intentos realizados. Elaborado por T. Huerta.',70,bY+bH+56,W-140,32);
+  return c;}
+function rr(x,X,Y,w,h,r){x.beginPath();x.moveTo(X+r,Y);x.arcTo(X+w,Y,X+w,Y+h,r);x.arcTo(X+w,Y+h,X,Y+h,r);x.arcTo(X,Y+h,X,Y,r);x.arcTo(X,Y,X+w,Y,r);x.closePath();}
+function wrapT(x,t,X,Y,mw,lh){let line='';t.split(' ').forEach(w=>{const s=line?line+' '+w:w;if(x.measureText(s).width>mw&&line){x.fillText(line,X,Y);Y+=lh;line=w;}else line=s;});if(line)x.fillText(line,X,Y);}
+function drawQR(x,text,X,Y,size){if(typeof window.qrcode!=='function')return;
+  try{const q=window.qrcode(0,'L');q.addData(text);q.make();const n=q.getModuleCount(),cell=Math.floor(size/(n+2)),off=Math.floor((size-cell*n)/2);
+    x.fillStyle='#fff';x.fillRect(X,Y,size,size);x.fillStyle='#000';
+    for(let r=0;r<n;r++)for(let cc=0;cc<n;cc++)if(q.isDark(r,cc))x.fillRect(X+off+cc*cell,Y+off+r*cell,cell,cell);}catch(_){}}
+
+/* ---------- Inicio ---------- */
+drawScene();draw2();draw3();render4();renderGuided();renderQuiz();renderComp();updateWho();showReg(!ST.name);go(ST.name?Math.max(...ST.seen.filter(i=>i<6)):0);renderCalc();
+})();
+</script>
+</body>
+</html>

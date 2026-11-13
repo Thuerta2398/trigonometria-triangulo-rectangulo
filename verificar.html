@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Verificar comprobante · Trigonometría</title>
+<style>
+:root{--bg:#f3f5fb;--ink:#1c2541;--muted:#5d6886;--line:#e1e6f0;--acc:#6d4aff;--ok:#16a34a;--bad:#dc2626}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.5 "Segoe UI",system-ui,-apple-system,Roboto,sans-serif}
+header{background:linear-gradient(120deg,#1c2541,#3a2f7a);color:#fff;padding:18px 20px}
+header h1{margin:0;font-size:1.3rem}header p{margin:2px 0 0;opacity:.8;font-size:.9rem}
+main{max-width:640px;margin:0 auto;padding:18px 14px 40px}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:16px 18px;margin-bottom:16px}
+.res{border-radius:14px;padding:14px 16px;font-weight:700;font-size:1.15rem;margin-bottom:12px}
+.res.ok{background:#e6f8ec;color:#14532d}.res.bad{background:#fdeaea;color:#7f1d1d}
+table{width:100%;border-collapse:collapse}td{padding:8px 4px;border-bottom:1px solid var(--line)}td:last-child{text-align:right;font-weight:700}
+label{display:block;font-weight:600;margin-top:10px;font-size:.95rem}
+input{display:block;width:100%;font:inherit;padding:9px 11px;border:2px solid var(--line);border-radius:10px;margin-top:3px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+button{font:inherit;background:var(--acc);color:#fff;border:0;border-radius:12px;padding:11px 16px;font-weight:700;width:100%;margin-top:16px;cursor:pointer}
+.small{font-size:.86rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<header><h1>Verificar comprobante</h1><p>Trigonometría del triángulo rectángulo · Matemáticas V</p></header>
+<main>
+  <div id="out"></div>
+  <form class="card" id="f">
+    <b>Captura manual</b>
+    <p class="small" style="margin:2px 0 0">Si no puedes escanear el QR, copia los datos tal como aparecen en el comprobante.</p>
+    <label>Nombre<input id="n"></label>
+    <div class="g2"><label>Matrícula<input id="m" placeholder="— si está vacía"></label><label>Grupo<input id="g"></label></div>
+    <div class="g2"><label>Fecha y hora<input id="t" placeholder="2026-11-12 20:45"></label><label>Tiempo (min)<input id="min" inputmode="numeric"></label></div>
+    <div class="g2"><label>Estaciones (de 5)<input id="e" inputmode="numeric"></label><label>Problemas guiados (de 3)<input id="u" inputmode="numeric"></label></div>
+    <div class="g2"><label>Reto de práctica (de 10)<input id="r" placeholder="vacío si «No realizado»"></label><label>Quiz: aciertos<input id="a" inputmode="numeric"></label></div>
+    <div class="g2"><label>Quiz: total de preguntas<input id="q" inputmode="numeric" value="6"></label><label>Código<input id="c" placeholder="XXXX-XXXX"></label></div>
+    <button type="submit">Verificar</button>
+  </form>
+</main>
+<script>
+(function(){
+const SALT='MATV·TRIG·2026·SCT';
+function cyrb53(str,seed){seed=seed||0;let h1=0xdeadbeef^seed,h2=0x41c6ce57^seed;
+  for(let i=0,ch;i<str.length;i++){ch=str.charCodeAt(i);h1=Math.imul(h1^ch,2654435761);h2=Math.imul(h2^ch,1597334677);}
+  h1=Math.imul(h1^(h1>>>16),2246822507);h1^=Math.imul(h2^(h2>>>13),3266489909);
+  h2=Math.imul(h2^(h2>>>16),2246822507);h2^=Math.imul(h1^(h1>>>13),3266489909);
+  return 4294967296*(2097151&h2)+(h1>>>0);}
+const norm=v=>String(v||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toUpperCase().replace(/\s+/g,' ').trim();
+function code8(str){const c=cyrb53(str+'|'+SALT,7).toString(36).toUpperCase().padStart(11,'0').slice(-8);return c.slice(0,4)+'-'+c.slice(4);}
+const sumStr=v=>['v1',norm(v.n),norm(v.m),norm(v.g),String(v.t).trim(),+v.min,+v.e,+v.u,+v.r,+v.a,+v.q].join('|');
+const b64d=s=>{s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';return decodeURIComponent(escape(atob(s)));};
+const esc=v=>String(v).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const cleanCode=v=>{const s=String(v||'').toUpperCase().replace(/[^A-Z0-9]/g,'');return s.length===8?s.slice(0,4)+'-'+s.slice(4):s;};
+const out=document.getElementById('out');
+function show(ok,d){const pc=d.q?Math.round(100*d.a/d.q):0;
+  out.innerHTML=`<div class="card"><div class="res ${ok?'ok':'bad'}">${ok?'✓ Comprobante válido':'✗ El código no coincide con los datos'}</div>
+  <table><tr><td>Estudiante</td><td>${esc(d.n)}</td></tr><tr><td>Matrícula</td><td>${esc(d.m)}</td></tr><tr><td>Grupo</td><td>${esc(d.g)}</td></tr>
+  <tr><td>Fecha y hora</td><td>${esc(d.t)}</td></tr><tr><td>Tiempo en la lección</td><td>${esc(d.min)} min</td></tr>
+  <tr><td>Estaciones recorridas</td><td>${esc(d.e)}/5</td></tr><tr><td>Problemas guiados resueltos</td><td>${esc(d.u)}/3</td></tr>
+  <tr><td>Reto de práctica</td><td>${+d.r<0?'No realizado':esc(d.r)+'/10'}</td></tr><tr><td>Quiz final</td><td>${esc(d.a)}/${esc(d.q)} · ${pc}%</td></tr>
+  <tr><td>Código</td><td>${esc(d.c)}</td></tr></table>
+  ${ok?'':'<p class="small">Si capturaste los datos a mano, revisa que coincidan exactamente con la imagen (incluida la fecha y hora).</p>'}</div>`;}
+const h=location.hash.match(/#d=([A-Za-z0-9_-]+)/);
+if(h){try{const d=JSON.parse(b64d(h[1]));show(code8(sumStr(d))===d.c,d);}catch(_){out.innerHTML='<div class="card"><div class="res bad">QR no válido: no se pudieron leer los datos.</div></div>';}}
+document.getElementById('f').onsubmit=e=>{e.preventDefault();const v=id=>document.getElementById(id).value.trim();
+  const d={n:v('n'),m:v('m')||'—',g:v('g'),t:v('t'),min:v('min'),e:v('e'),u:v('u'),r:v('r')===''?-1:v('r'),a:v('a'),q:v('q'),c:cleanCode(v('c'))};
+  show(code8(sumStr(d))===d.c,d);window.scrollTo(0,0);};
+})();
+</script>
+</body>
+</html>
